@@ -3,32 +3,28 @@ import{View,
     Text,
     StyleSheet,
     TextInput,
-    Button
+    Button,
+    Alert,
+    ScrollView,
 } from 'react-native';
-
-
-
+import AddNote from '../data/notesData'
 
 
 export default class NotesScreen extends React.Component{
 
-    constructor(){
-        super()
-        this.state = {
-            titulo: 'hola',
-            cuerpo: 'pepe',
-            arrNotes: []
-        }
+    newNote = () => {
+        const note = new AddNote
+        note.addNote()
     }
-
-    addNote = () => {  this.state.arrNotes.push({"titulo":this.state.titulo, "cuerpo":this.state.cuerpoerp})   }
-
-
+    
     render(){
         return(
             <View style={styles.main}>        
-                <TextInput placeholder='titulo' onChangeText={(val)=> this.setState({titulo: val})}/>
-                <Button title= 'add note' onPress={() => this.addNote()}></Button>
+ 
+                <Button title= 'add note' onPress={() => this.newNote()}></Button>
+                <ScrollView>
+
+                </ScrollView>
             </View>
         )
     }
