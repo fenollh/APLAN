@@ -5,14 +5,12 @@ export default class AddNote extends React.Component{
         super()
         this.state={
             arrNotes: [],
-            titulo: 'titulo',
-            cuerpo: 'cuerpo'
         };
     }
 
-    addNote = () => {
-        this.state.arrNotes.push({"titulo":this.state.titulo, "cuerpo":this.state.cuerpo})
+    addNote = (tit, cuerp) => {
+        this.state.arrNotes.push({"titulo":tit, "cuerpo":cuerp})
         console.log(this.state.arrNotes)
     }
-    
+
 } 

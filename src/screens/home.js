@@ -20,6 +20,7 @@ export default class HomeScreen extends React.Component{
         }
     }
 
+
     render(){
         return(
             <Container style={styles.main}>
