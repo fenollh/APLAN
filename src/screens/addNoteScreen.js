@@ -35,26 +35,6 @@ export default class AddNoteScreen extends React.Component {
         })
     }
 
-    saveNote = async () => {
-        
-
-        const newnote = {'title':this.state.Title, 'body':this.state.Body}
-        const newNote = JSON.stringify(newnote)
-        const noteArr = [newNote]
-        Alert.alert (JSON.stringify(noteArr))
-        
-        if (this.state.createArr == false){
-            const arr = await AsyncStorage.getItem('@arr')
-            const newArr = arr.push(newNote)
-            await AsyncStorage.setItem('@arr', newArr)
-        } else{
-            await AsyncStorage.setItem('@arr', JSON.stringify(noteArr))
-            this.setState({ createArr: false})
-        }
-        
-    }
-
-
 
     render(){
         return(
