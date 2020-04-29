@@ -4,11 +4,8 @@ import{
     Text,
     StyleSheet,
     TextInput,
-    Alert,
-    AsyncStorage,
 } from 'react-native';
-import { Button } from 'native-base';
-import { Ionicons } from '@expo/vector-icons';
+import { Button, Icon } from 'native-base';
 
 
 
@@ -19,7 +16,6 @@ export default class AddNoteScreen extends React.Component {
         this.state= {
             Title: '',
             Body: '',
-            createArr: true
         }
     }
 
@@ -46,6 +42,7 @@ export default class AddNoteScreen extends React.Component {
                         multiline={true} 
                         placeholder='titulo' 
                         scrollEnabled={true}
+                        maxLength = {50}
                         onChangeText={(val) => this.saveTitle(val)}/>
                     <TextInput 
                         style= {styles.inputBod} 
@@ -56,25 +53,25 @@ export default class AddNoteScreen extends React.Component {
                         onChangeText={(val) => this.saveBody(val)}/>
                 </View>
 
-                <View style={{flex: 1, flexDirection: 'row'}}> 
+                <View style={styles.footer}> 
                     <Button 
                         block info
                         iconLeft
                         title='advanced options' 
-                        style={styles.options}
+                        style={styles.optionsBtn}
                         >
-                        <Text> ADVANCED OPTIONS </Text>
-                        <Ionicons name= 'md-settings'/>
+                        <Text style={styles.optionsTxt}> ADVANCED OPTIONS </Text>
+                        <Icon name= 'ios-settings' style={{marginRight: '7%', fontSize: 30, color: 'rgb(52,251,167)'}}/>
                     </Button>
 
                     <Button 
                         block success
                         iconLeft
-                        style={styles.btn} 
+                        style={styles.addBtn} 
                         onPress={() => this.saveNote()
                         }>
-                        <Text> ADD NOTE </Text>
-                        <Ionicons name= 'md-add'/>
+                        <Text style={styles.addTxt}> ADD NOTE </Text>
+                        <Icon name= 'ios-add' style={{ fontSize: 40, color: 'rgb(52,251,167)'}}/>
                     </Button>
                 </View>
             </View>
@@ -116,19 +113,38 @@ const styles = StyleSheet.create({
         },
 
         // FOOTER
-        btn:{
-            flex:3,
-           // height: '',
-            borderRadius: 10,
-            marginLeft: '2%',
-            marginRight: 8
+        footer:{
+            flex:1,
+            flexDirection: 'row',
+            marginBottom: '1%',
         },
 
-        options: {
-            flex: 2,
-           // height: '80%',
-            borderRadius: 10,
-            marginLeft: 8
+        addBtn:{
+            flex:1,
+            marginHorizontal: '1%',
+            borderRadius: 20,
+            backgroundColor: 'rgb(100,180,255)',
+            padding: 20,
+        },
+
+        optionsBtn: {
+            flex: 1,
+            justifyContent: 'center',
+            marginHorizontal: '1%',
+            borderRadius: 20,
+            padding: '6%',
+            backgroundColor: 'rgb(100,180,255)',
+        },
+
+        addTxt:{
+            marginLeft: '15%',
+            fontWeight: 'bold',
+            fontSize: 15,
+        },
+
+        optionsTxt:{
+            fontWeight: 'bold',
+            fontSize: 15,
         },
 
 })

@@ -17,11 +17,10 @@ export default class Header extends React.Component{
                 <View style={styles.menu}>
                     <Ionicons.Button 
                         backgroundColor='rgb(100,180,255)'//azul 
-                        name="md-menu" 
+                        name="md-options" 
                         size={50} 
                         color="rgb(52,251,167)" //verde
-                        onPress={() => 
-                        Alert.alert('Simple Button pressed')} />
+                        onPress={() => Alert.alert('Simple Button pressed')} />
                 </View>
 
                 <View style={styles.nombre}>
@@ -45,11 +44,11 @@ const styles = StyleSheet.create({
     menu: {
         flex:3,
         marginStart: '5%',
-        marginTop: '3%',
+        marginTop: '5%',
     },
     nombre: {
         flex:10,
         marginTop: '3%',
-        marginLeft: '-2%',
+        marginRight: '2%',
     },
 })
