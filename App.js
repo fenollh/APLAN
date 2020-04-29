@@ -35,13 +35,11 @@ export default class App extends React.Component {
             iconName = 'file1';
           }
 
-          return <Icon name={iconName} size={25} color='blue' />;
+          return <Icon name={iconName} size={25} color='rgb(52,251,167)' />;
         },
       })}   
             
       tabBarOptions={{
-        activeTintColor: 'rgb(52,251,167)',
-        inactiveTintColor: 'rgb(0,0,0)',
         showIcon: true,
         showLabel: false,
       }}>
@@ -54,7 +52,7 @@ export default class App extends React.Component {
 
   render(){
     return ( 
-      <View style={{flex:10, flexDirection: 'column'}}>
+      <View style={{flex:10, flexDirection: 'column', backgroundColor: 'rgb(100,180,255)'}}>
           <Header/>
 
           <NavigationContainer theme={MyTheme}>
@@ -74,6 +72,6 @@ export default class App extends React.Component {
 const MyTheme = {
   colors: {
     primary: 'rgb(52,251,167)', 
-    card: 'rgb(187,188,189)',
+    card: 'rgb(80,130,255)',
   },
 };

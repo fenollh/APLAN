@@ -1,40 +1,34 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
+    View,
     Text,
     StyleSheet,
     Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import{
-    Container,
-    View,
-    Button,
-    Icon,
-    Fab,
-} from 'native-base'
+
 
 export default class Header extends React.Component{
 
-    constructor(props){
-        super(props)
-        this.state = {
-            fabActive: false,
-        }
-    }
-    
-
     render(){
         return(
-            <Container style={styles.container}>
+            <View style={styles.container}>
+
                 <View style={styles.menu}>
-                    <Ionicons.Button backgroundColor='rgb(52,251,167)' name="md-menu" size={50} color="rgb(0,158,255)" onPress={() => Alert.alert('Simple Button pressed')} />
+                    <Ionicons.Button 
+                        backgroundColor='rgb(100,180,255)'//azul 
+                        name="md-menu" 
+                        size={50} 
+                        color="rgb(52,251,167)" //verde
+                        onPress={() => 
+                        Alert.alert('Simple Button pressed')} />
                 </View>
+
                 <View style={styles.nombre}>
                     <Text style={{fontWeight: 'bold', fontSize: 30, marginStart: '17%' }}>APLAN</Text>
                 </View>
-                <View style={styles.anadir}>
-                </View>
-            </Container>
+
+            </View>
         )
     }
 }
@@ -42,7 +36,8 @@ export default class Header extends React.Component{
 const styles = StyleSheet.create({
     container: {
         flex: 0,
-        backgroundColor: 'rgb(52,251,167)',
+        marginTop: '3%',
+        backgroundColor: 'rgb(100,180,255)',//azul
         flexDirection: 'row',
         alignItems: 'center',
         maxHeight: 100,
@@ -55,10 +50,6 @@ const styles = StyleSheet.create({
     nombre: {
         flex:10,
         marginTop: '3%',
-        marginLeft: '9%',
+        marginLeft: '-2%',
     },
-    anadir:{
-        flex:4,
-        marginTop: '5%',
-    }
 })
