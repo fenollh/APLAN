@@ -39,12 +39,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgb(100,180,255)',//azul
         flexDirection: 'row',
         alignItems: 'center',
-        maxHeight: 100,
     },
     menu: {
         flex:3,
         marginStart: '5%',
-        marginTop: '5%',
+        marginTop: '3%',//5%
     },
     nombre: {
         flex:10,

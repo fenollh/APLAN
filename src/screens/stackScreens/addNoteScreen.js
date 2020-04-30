@@ -19,18 +19,10 @@ export default class AddNoteScreen extends React.Component {
         }
     }
 
-    saveTitle = async (title) => {
-        this.setState({
-            Title: title
-        })
+    saveNote= (title, body) => {
+        note = {'title':title, 'body':body}
+        //save note to firebase
     }
-
-    saveBody = async (body) => {
-        this.setState({
-            Body: body
-        })
-    }
-
 
     render(){
         return(
@@ -43,14 +35,14 @@ export default class AddNoteScreen extends React.Component {
                         placeholder='titulo' 
                         scrollEnabled={true}
                         maxLength = {50}
-                        onChangeText={(val) => this.saveTitle(val)}/>
+                        onChangeText={(title) => this.setState({ Title: title })}/>
                     <TextInput 
                         style= {styles.inputBod} 
                         multiline={true} 
                         placeholder='cuerpo' 
                         scrollEnabled={true}
                         textAlignVertical='top'
-                        onChangeText={(val) => this.saveBody(val)}/>
+                        onChangeText={(body) => this.setState({ Body:body })}/>
                 </View>
 
                 <View style={styles.footer}> 
@@ -68,7 +60,7 @@ export default class AddNoteScreen extends React.Component {
                         block success
                         iconLeft
                         style={styles.addBtn} 
-                        onPress={() => this.saveNote()
+                        onPress={() => this.saveNote(this.state.Title, this.state.Body)
                         }>
                         <Text style={styles.addTxt}> ADD NOTE </Text>
                         <Icon name= 'ios-add' style={{ fontSize: 40, color: 'rgb(52,251,167)'}}/>

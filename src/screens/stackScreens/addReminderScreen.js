@@ -25,21 +25,11 @@ export default class AddReminderScreen extends React.Component{
             Body: '',
         }
     }
-    
-    setDate = (newDate) => {
-        this.setState({ choseDate: newDate })
-        this.setState({ stringDate: this.state.choseDate.toString().substr(4, 12) })
-    }
-    activateNotifications = () =>{
-        this.setState({ cbNotifications: !this.state.cbNotifications })
-    }
-    saveTitle = (title) => {
-        this.setState({ Title: title })
-    }
-    saveBody = (body) => {
-        this.setState({ Body: body })
-    }
 
+    saveNote = (title, date, body, notifications) => {
+        reminder = {'Title': title,'Date': date,'Body': body,'Notifications': notifications}
+        // recibir el array de reminders de firebase, duplicarlo, pushear el nuevo y volver a enviarlo
+    }
 
     render(){
         return(
@@ -64,7 +54,7 @@ export default class AddReminderScreen extends React.Component{
                             placeholderTextColor="rgb(150,150,150)"
                             multiline = {false}
                             maxLength ={50}
-                            onChangeText={(val) => this.saveTitle(val)}
+                            onChangeText={(title) => this.setState({ Title: title })}
                             />
                     </View>
 
@@ -74,7 +64,7 @@ export default class AddReminderScreen extends React.Component{
                             androidMode={"calendar"}
                             placeHolderText="When is happening?"
                             placeHolderTextStyle={{ color: "rgb(150,150,150)", fontSize: 14 }}
-                            onDateChange={(val) => this.setDate(val)}
+                            onDateChange={(date) => this.setState({ choseDate: date, stringDate: date.toString().substr(4, 12) })}
                             disabled={false}
                             
                             />
@@ -88,7 +78,7 @@ export default class AddReminderScreen extends React.Component{
                             placeholderTextColor="rgb(150,150,150)"
                             multiline = {true}
                             scrollEnabled = {true}
-                            onChangeText = {(val) => this.saveBody(val)}
+                            onChangeText = {(body) => this.setState({ Body: body })}
                             />
                     </View>
 
@@ -97,11 +87,11 @@ export default class AddReminderScreen extends React.Component{
                         <View style={styles.checkBox}>
                             <CheckBox 
                                 checked={this.state.cbNotifications} color='rgb(100,180,255)'
-                                onPress={() => this.activateNotifications()}
+                                onPress={() => this.setState({ cbNotifications: !this.state.cbNotifications })}
                                 />
                         </View>
                         <View style={styles.checkBoxMessage}>
-                            <Text onPress={() => this.activateNotifications()}>push notification</Text>
+                            <Text onPress={() => this.setState({ cbNotifications: !this.state.cbNotifications })}>push notification</Text>
                         </View>
                     </View>
 
@@ -123,6 +113,7 @@ export default class AddReminderScreen extends React.Component{
 
                     <View style={{flex:1}}>
                         <Button 
+                            onPress={() => this.saveNote(this.state.Title, this.state.choseDate, this.state.Body, this.state.cbNotifications)}
                             style={styles.addBtn} 
                             iconLeft>
                             <Text style={styles.addBtnTxt}> ADD REMINDER</Text>
