@@ -2,6 +2,7 @@ import React from 'react';
 import{View, 
     Text,
     StyleSheet,
+    Alert,
 } from 'react-native';
 import{
     Fab,
@@ -11,22 +12,29 @@ import {MaterialCommunityIcons, AntDesign} from '@expo/vector-icons'
 
 
 
+
 export default class CalendarScreen extends React.Component{
 
     constructor(){
         super()
         this.state={
-            FavouritesFilter: true
+            FavouritesFilter: false
         }
     }
 
     showFavourites = () => {
-        this.setState=({ FavouritesFilter: !this.state.FavouritesFilter })
+        this.setState({ FavouritesFilter: !this.state.FavouritesFilter })
         //FILTRA SOLO LAS NOTAS FAVORITAS
     }
 
     render(){ 
-    
+
+        let favouritesIcon
+
+        this.state.FavouritesFilter
+        ? favouritesIcon = <AntDesign name='star' size={30} color = {'rgb(255,251,167)'}/>
+        : favouritesIcon = <AntDesign name='staro' size={30} color = {'rgb(52,251,167)'}/>
+
         return(
             <View style={styles.main}>      
                 <View style={{flex: 1, flexDirection: 'row', marginTop: '1%'}}>
@@ -36,10 +44,9 @@ export default class CalendarScreen extends React.Component{
                     <Button
                         iconRight light
                         onPress={() => this.showFavourites()}
-                        style={styles.favourites}
-                    >
+                        style={styles.favourites}>
                         
-                        <AntDesign name='staro' size={30} color = {'rgb(52,251,167)'}/>
+                        {favouritesIcon}
                     </Button>
                 </View>
                 <View style={{flex: 14}}>
