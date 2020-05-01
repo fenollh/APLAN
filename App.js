@@ -13,6 +13,7 @@ import CalendarScreen from './src/screens/tabScreens/calendar'
 import AddNoteScreen from './src/screens/stackScreens/addNoteScreen'
 import AddReminderScreen from './src/screens/stackScreens/addReminderScreen'
 import LoginScreen from './src/screens/stackScreens/loginScreen'
+import SignupScreen from './src/screens/stackScreens/signupScreen'
 
 import Icon from 'react-native-vector-icons/AntDesign';
 
@@ -62,6 +63,7 @@ export default class App extends React.Component {
           <NavigationContainer theme={MyTheme}>
             <Stack.Navigator headerMode= 'none'>
               <Stack.Screen name = 'login' component={LoginScreen}/>
+              <Stack.Screen name = 'signup' component={SignupScreen}/>
               <Stack.Screen name = 'main' component = {this.TabNavigator}/>
               <Stack.Screen name = 'addNote' component={AddNoteScreen}/>
               <Stack.Screen name = 'addReminder' component={AddReminderScreen}/>

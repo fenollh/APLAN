@@ -30,30 +30,36 @@ if (!firebase.apps.length) {
 }
 
 
-export default class LoginScreen extends React.Component{
+export default class SignupScreen extends React.Component{
 
     constructor(props){
         super(props)
         this.state={
             Email: '',
+            Email2: '',
             Password: '',
+            Password2: '',
         }
     }
 
-    loginEmailPassword = (email, password) => {
+    signup = (email, password) => {
 
         try{
-            firebase.auth().signInWithEmailAndPassword(email, password)
+            if(email !== this.state.Email2 || password !== this.state.Password2){
+                Alert.alert('el email o password no coincide') 
+                return
+            }
+            if(password.length<=6){
+                Alert.alert('The password must have 6 or more caracters')
+                return
+            }
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+            Alert.alert('welcome')
             this.props.navigation.navigate('main')
         }
         catch(error){
-            Alert.alert(error.toString)
+            Alert.alert(error.toString())
         }
-
-    }
-
-    signup = () => {
-        this.props.navigation.navigate('signup')
     }
 
     render(){
@@ -70,26 +76,27 @@ export default class LoginScreen extends React.Component{
                             onChangeText={(email) => this.setState({ Email: email })}/>
                     </Item>
                     <Item floatingLabel style={{marginTop: '3%'}}>
+                        <Label>Repeat the email</Label>
+                        <Input 
+                            onChangeText={(email) => this.setState({ Email2: email })}/>
+                    </Item>
+                    <Item floatingLabel style={{marginTop: '10%'}}>
                         <Label>Password</Label>
                         <Input 
                             secureTextEntry={true}
                             onChangeText={(password) => this.setState({ Password: password })}/>
                     </Item>
+                    <Item floatingLabel style={{marginTop: '3%'}}>
+                        <Label>Repeat the password</Label>
+                        <Input 
+                            secureTextEntry={true}
+                            onChangeText={(password) => this.setState({ Password2: password })}/>
+                    </Item>
 
     {/* BUTTON SECTION */}
                     <Button 
-                        style={styles.loginBtn} 
-                        onPress={() => this.loginEmailPassword(this.state.Email, this.state.Password)}>
-                        <Text style={styles.loginTxt}>LOGIN</Text>
-                    </Button>
-                    <Button 
-                        style={styles.loginFBBtn} 
-                        onPress={() => this.loginFacebook(this.state.Email, this.state.Password)}>
-                        <Text style={styles.loginFBTxt}>LOGIN WITH FACEBOOK</Text>
-                    </Button>
-                    <Button 
                         style={styles.signupBtn}
-                        onPress={() => this.signup()}>
+                        onPress={() => this.signup(this.state.Email, this.state.Password)}>
                         <Text style={styles.signupTxt}>SIGN UP</Text>
                     </Button>
 
@@ -141,34 +148,9 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: 'rgb(220,240,255)'
     },
-    loginBtn:{
-        marginTop: '15%',
-        justifyContent: 'center',
-        borderRadius: 10,
-        backgroundColor: 'rgb(81,213,50)',
-    },
-
-    loginTxt:{
-        marginTop: '5%',
-        fontWeight: 'bold',
-        fontSize: 18,
-    },
-
-    loginFBBtn:{
-        marginTop: '5%',
-        justifyContent: 'center',
-        borderRadius: 10,    
-        backgroundColor: 'rgb(100,180,255)',
-    },
-
-    loginFBTxt:{
-        marginTop:'2%',
-        fontWeight: 'bold',
-        fontSize: 18,
-    },
 
     signupBtn:{
-        marginTop: '25%',
+        marginTop: '30%',
         justifyContent: 'center',
         borderRadius: 10,    
         backgroundColor: 'rgb(100,180,255)',
