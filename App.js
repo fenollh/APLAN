@@ -62,6 +62,7 @@ export default class App extends React.Component {
 
           <NavigationContainer theme={MyTheme}>
             <Stack.Navigator headerMode= 'none'>
+              
               <Stack.Screen name = 'main' component = {this.TabNavigator}/>
               <Stack.Screen name = 'addNote' component={AddNoteScreen}/>
               <Stack.Screen name = 'addReminder' component={AddReminderScreen}/>

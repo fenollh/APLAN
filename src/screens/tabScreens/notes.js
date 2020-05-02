@@ -1,18 +1,34 @@
 import React from 'react';
+import {AntDesign, MaterialIcons} from '@expo/vector-icons'
+import firebase from 'firebase'
+
 import{View, 
     StyleSheet,
     Text,
     FlatList,
 } from 'react-native';
-
 import{
     Fab,
     Button,
     List,
     ListItem,
 } from 'native-base'
-import {AntDesign, MaterialIcons} from '@expo/vector-icons'
 
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAbXkNWtod5WFUFEbWVM6Q1BAmVDbVGAeo",
+    authDomain: "aplan-8bbba.firebaseapp.com",
+    databaseURL: "https://aplan-8bbba.firebaseio.com",
+    projectId: "aplan-8bbba",
+    storageBucket: "aplan-8bbba.appspot.com",
+    messagingSenderId: "502481515083",
+    appId: "1:502481515083:web:79017bc417ac4bf16b53ce",
+    measurementId: "G-QLXPJEZCN3"
+}
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 
 export default class NotesScreen extends React.Component{
 
@@ -22,6 +38,7 @@ export default class NotesScreen extends React.Component{
         this.state={
             FavouritesFilter: false
         }
+        this.data
     }
 
     showFavourites = () => {
@@ -29,8 +46,14 @@ export default class NotesScreen extends React.Component{
         //FILTRA SOLO LAS NOTAS FAVORITAS
     }
 
-    saveNote= (title) => {
+    saveData = () => {
+        firebase.database().ref('/users/001').once('value', (note) => {
+            this.data = note.val()
+        })
 
+    }
+    showData = () => {
+        console.log(this.data)        
     }
 
     render(){
@@ -45,11 +68,11 @@ export default class NotesScreen extends React.Component{
             <View style={styles.container}>      
                 <View style={styles.subHeader}>
                     <View style= {{flex:7}}>   
-                        <Text style={styles.title}> ESTO ES NOTES </Text>         
+                        <Text style={styles.title} onPress={() => this.saveData()}> ESTO ES NOTES </Text>         
                     </View>
                     <Button
                         iconRight light
-                        onPress={() => this.showFavourites()}
+                        onPress={() => this.showData()}
                         style={styles.favoutites}>
                         
                         {favouritesIcon}
