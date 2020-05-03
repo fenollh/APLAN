@@ -34,11 +34,11 @@ export default class NotesScreen extends React.Component{
 
     constructor(props){
         super(props)
+
         this.state={
             FavouritesFilter: false,
-            Username: props.user
+            Username: props.user,
         }
-        this.data
     }
 
     showFavourites = () => {
@@ -46,18 +46,8 @@ export default class NotesScreen extends React.Component{
         //FILTRA SOLO LAS NOTAS FAVORITAS
     }
 
-    saveData = () => {
-        firebase.database().ref('/users/001').once('value', (note) => {
-            this.data = note.val()
-        })
-
-    }
-    showData = () => {
-        console.log(this.data)        
-    }
 
     render(){
-        
         let favouritesIcon
 
         this.state.FavouritesFilter
@@ -68,11 +58,11 @@ export default class NotesScreen extends React.Component{
             <View style={styles.container}>      
                 <View style={styles.subHeader}>
                     <View style= {{flex:7}}>   
-                        <Text style={styles.title} onPress={() => this.saveData()}> {this.state.Username} </Text>         
+                        <Text style={styles.title}> NOTES SCREEN </Text>         
                     </View>
                     <Button
                         iconRight light
-                        onPress={() => this.showData()}
+                        onPress={() => this.showFavourites()}
                         style={styles.favoutites}>
                         
                         {favouritesIcon}
@@ -84,7 +74,8 @@ export default class NotesScreen extends React.Component{
                     <Fab
                         position="bottomRight"
                         style={{ backgroundColor: 'rgb(100,180,255)' }}
-                        onPress={() => this.props.navigation.navigate('addNote')}>
+                        onPress={() => this.props.navigation.navigate('addNote', {Username: this.state.Username})}
+                        >
                         <MaterialIcons name='note-add' style={{color: 'rgb(52,251,167)', fontSize: 30}} />
                     </Fab>
                 </View>

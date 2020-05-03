@@ -55,7 +55,7 @@ export default class CalendarScreen extends React.Component{
                     <Fab
                         position="bottomRight"
                         style={{ backgroundColor: 'rgb(100,180,255)' }}
-                        onPress={() => this.props.navigation.navigate('addReminder')}>
+                        onPress={() => this.props.navigation.navigate('addReminder', {Username: this.state.Username})}>
                         <MaterialCommunityIcons name='reminder' style={{color: 'rgb(52,251,167)', fontSize: 30}}/>
                     </Fab>
                 </View>

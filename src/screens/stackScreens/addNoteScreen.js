@@ -27,9 +27,11 @@ if (!firebase.apps.length) {
 
 export default class AddNoteScreen extends React.Component {
     
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
+        const {Username} = props.route.params
         this.state= {
+            
             Type: 'note',
             Title: '',
             Body: '',
@@ -41,6 +43,7 @@ export default class AddNoteScreen extends React.Component {
             Title: title,
             Body: body
         })
+        console.log(this.state.Username)
         
     }
 

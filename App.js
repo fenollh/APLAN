@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
 
 import Header from './src/components/header';
@@ -27,9 +28,11 @@ export default class App extends React.Component {
 
   TabNavigator({navigation, route}) {
     const { Username } = route.params;
-    const Calendar = calendar => <CalendarScreen user={Username}/>
+    const Navigation = useNavigation();
+
+    const Calendar = calendar => <CalendarScreen user={Username} navigation={Navigation}/>
     const Home = home => <HomeScreen user={Username}/>
-    const Notes = notes => <NotesScreen user={Username}/>
+    const Notes = notes => <NotesScreen user={Username} navigation={Navigation}/>
 
     return(
     <Tab.Navigator
