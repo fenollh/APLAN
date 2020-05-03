@@ -17,13 +17,17 @@ export default class HomeScreen extends React.Component{
         super(props)
         this.state = {
             fabActive: false,
+            Username: props.user
+            //Username: this.props.route.params.Username,
         }
     }
 
 
     render(){
         return(
+            
             <Container style={styles.main}>
+                <View><Text> hola </Text></View>
                     <Fab
                     active={this.state.fabActive}
                     direction = 'up'

@@ -25,9 +25,15 @@ const Stack = createStackNavigator();
 export default class App extends React.Component {
 
 
-  TabNavigator({navigation}) {
+  TabNavigator({navigation, route}) {
+    const { Username } = route.params;
+    const Calendar = calendar => <CalendarScreen user={Username}/>
+    const Home = home => <HomeScreen user={Username}/>
+    const Notes = notes => <NotesScreen user={Username}/>
+
     return(
     <Tab.Navigator
+      initialRouteName='Home'
       screenOptions={({ route }) => ({
         tabBarIcon: ({}) => {
           let iconName;
@@ -48,9 +54,9 @@ export default class App extends React.Component {
         showIcon: true,
         showLabel: false,
       }}>
-      <Tab.Screen name="Calendar" component={CalendarScreen}/>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Notes" component={NotesScreen}/>
+      <Tab.Screen name="Calendar" component={Calendar}/>
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Notes" component={Notes} />
     </Tab.Navigator>
     )
   }
@@ -62,12 +68,12 @@ export default class App extends React.Component {
 
           <NavigationContainer theme={MyTheme}>
             <Stack.Navigator headerMode= 'none'>
-              
+              <Stack.Screen name = 'login' component={LoginScreen}/>
+              <Stack.Screen name = 'signup' component={SignupScreen}/>
               <Stack.Screen name = 'main' component = {this.TabNavigator}/>
               <Stack.Screen name = 'addNote' component={AddNoteScreen}/>
               <Stack.Screen name = 'addReminder' component={AddReminderScreen}/>
-              <Stack.Screen name = 'login' component={LoginScreen}/>
-              <Stack.Screen name = 'signup' component={SignupScreen}/>
+
             </Stack.Navigator>
           </NavigationContainer>
       </View>

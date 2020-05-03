@@ -15,10 +15,12 @@ import {MaterialCommunityIcons, AntDesign} from '@expo/vector-icons'
 
 export default class CalendarScreen extends React.Component{
 
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state={
-            FavouritesFilter: false
+            FavouritesFilter: false,
+            Username: props.user
+           
         }
     }
 

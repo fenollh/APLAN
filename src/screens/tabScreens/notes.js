@@ -34,9 +34,9 @@ export default class NotesScreen extends React.Component{
 
     constructor(props){
         super(props)
-
         this.state={
-            FavouritesFilter: false
+            FavouritesFilter: false,
+            Username: props.user
         }
         this.data
     }
@@ -68,7 +68,7 @@ export default class NotesScreen extends React.Component{
             <View style={styles.container}>      
                 <View style={styles.subHeader}>
                     <View style= {{flex:7}}>   
-                        <Text style={styles.title} onPress={() => this.saveData()}> ESTO ES NOTES </Text>         
+                        <Text style={styles.title} onPress={() => this.saveData()}> {this.state.Username} </Text>         
                     </View>
                     <Button
                         iconRight light

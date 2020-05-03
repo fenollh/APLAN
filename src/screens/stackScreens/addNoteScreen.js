@@ -36,14 +36,11 @@ export default class AddNoteScreen extends React.Component {
         }
         this.data = ''
     }
-    addNote = () => {
+    addNote = (title, body) => {
         firebase.database().ref('/users/001').set({
-            name: 'Hugo Fenoll',
-            age: '16'
-        })/*
-        .then(() =>{
-            this.data = firebase.database().ref('/users/001').once('value', (note) => {console.log(note)})
-        })*/
+            Title: title,
+            Body: body
+        })
         
     }
 
