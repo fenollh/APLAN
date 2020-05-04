@@ -71,6 +71,7 @@ export default class AddReminderScreen extends React.Component{
             Body: this.state.Body,
             Date: this.state.stringDate,
             Notifications: this.state.cbNotifications,
+            Importance: this.state.Radio,
         })
 
 

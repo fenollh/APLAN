@@ -5,9 +5,8 @@ import{
     Text,
     StyleSheet,
     TextInput,
-    Alert,
 } from 'react-native';
-import { Button, Icon } from 'native-base';
+import { Button, Icon, DatePicker } from 'native-base';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAbXkNWtod5WFUFEbWVM6Q1BAmVDbVGAeo",
@@ -42,8 +41,7 @@ export default class AddNoteScreen extends React.Component {
         firebase.database().ref('/users/' + this.state.UserID + '/' + this.state.Type + '/' + this.state.Title).set({
             Title: this.state.Title,
             Body: this.state.Body
-        })
-        
+        })   
     }
 
 
@@ -56,9 +54,7 @@ export default class AddNoteScreen extends React.Component {
             <View style={{flex: 12, marginTop: '2%'}}>
                 <TextInput 
                     style={styles.inputTit} 
-                    multiline={true} 
                     placeholder='titulo' 
-                    scrollEnabled={true}
                     maxLength = {50}
                     onChangeText={(title) => this.setState({ Title: title })}/>
                 <TextInput 
@@ -70,7 +66,37 @@ export default class AddNoteScreen extends React.Component {
                     onChangeText={(body) => this.setState({ Body:body })}/>
             </View>
         }else{
-            inputType = <View style={{flex:12, marginTop: '2%'}}/>
+            inputType = 
+            <View style={{flex:12, marginTop: '2%', flexDirection:'column'}}>
+                <View style={{felx: 2, flexDirection: 'row'}}>
+                    <View style={{flex:1}}>
+                        <TextInput 
+                            style={styles.inputTit} 
+                            placeholder='title' 
+                            maxLength = {50}
+                            onChangeText={(title) => this.setState({ Title: title })}/>
+                    </View>
+                    <View style= {styles.datePick}>
+                        <DatePicker
+                            defaultDate={Date.now}
+                            androidMode={"calendar"}
+                            placeHolderText="What is the deadline?"
+                            placeHolderTextStyle={{ color: "rgb(200,200,200)", fontSize: 13}}
+                            onDateChange={(date) => this.setState({ choseDate: date, stringDate: date.toString().substr(4, 12) })}
+                            disabled={false}/>
+                    </View>
+                </View>
+
+                <View style={{flex: 10}}>
+                    <TextInput 
+                        style={styles.inputBodTask} 
+                        multiline={true} 
+                        placeholder='What do you have to do?' 
+                        scrollEnabled={true}
+                        textAlignVertical='top'
+                        onChangeText={(title) => this.setState({ Title: title })}/>
+                </View>
+            </View>
         }
 
         return(
@@ -164,7 +190,7 @@ const styles = StyleSheet.create({
     // INPUT ZONE
     inputTit: {
         width: '95%',
-        marginStart: '2%',
+        marginStart: '3%',
         borderColor: 'rgb(100,100,100)',
         backgroundColor: 'rgb(180,230,255)',
         borderWidth: 1,
@@ -173,7 +199,7 @@ const styles = StyleSheet.create({
     },
     inputBod: {
         marginTop: '1%',
-        marginStart: '2%',
+        marginStart: '3%',
         height:'92%',
         width: '95%',
         borderColor: 'rgb(100,100,100)',
@@ -182,6 +208,34 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         
+    },
+
+    headerTask:{
+        flex:2,
+        flexDirection:'row',
+    },
+
+    inputBodTask:{
+        marginTop: '2%',
+        marginStart: '2%',
+        height:'40%',
+        width: '96%',
+        borderColor: 'rgb(100,100,100)',
+        backgroundColor: 'rgb(220, 235,255)',
+        padding: '2%',
+        borderWidth: 1,
+        borderRadius: 10,
+    },
+
+    datePick: {
+        flex: 1,
+        width: '95%',
+        alignItems:'center',
+        marginEnd: '1%',
+        borderColor: 'rgb(100,100,100)',
+        backgroundColor: 'rgb(180,230,255)',
+        borderWidth: 1,
+        borderRadius: 10,
     },
 
     // FOOTER
