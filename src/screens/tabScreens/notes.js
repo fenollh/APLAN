@@ -5,13 +5,10 @@ import firebase from 'firebase'
 import{View, 
     StyleSheet,
     Text,
-    FlatList,
 } from 'react-native';
 import{
     Fab,
     Button,
-    List,
-    ListItem,
 } from 'native-base'
 
 
@@ -37,7 +34,7 @@ export default class NotesScreen extends React.Component{
 
         this.state={
             FavouritesFilter: false,
-            Username: props.user,
+            UserID: firebase.auth().currentUser.uid,
         }
     }
 
@@ -74,7 +71,7 @@ export default class NotesScreen extends React.Component{
                     <Fab
                         position="bottomRight"
                         style={{ backgroundColor: 'rgb(100,180,255)' }}
-                        onPress={() => this.props.navigation.navigate('addNote', {Username: this.state.Username})}
+                        onPress={() => this.props.navigation.navigate('addNote')}
                         >
                         <MaterialIcons name='note-add' style={{color: 'rgb(52,251,167)', fontSize: 30}} />
                     </Fab>

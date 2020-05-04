@@ -29,21 +29,20 @@ export default class AddNoteScreen extends React.Component {
     
     constructor(props){
         super(props)
-        const {Username} = props.route.params
+
         this.state= {
-            
+            UserID: firebase.auth().currentUser.uid,
             Type: 'note',
             Title: '',
             Body: '',
         }
         this.data = ''
     }
-    addNote = (title, body) => {
-        firebase.database().ref('/users/001').set({
-            Title: title,
-            Body: body
+    addNote = () => {
+        firebase.database().ref('/users/' + this.state.UserID + '/' + this.state.Type + '/' + this.state.Title).set({
+            Title: this.state.Title,
+            Body: this.state.Body
         })
-        console.log(this.state.Username)
         
     }
 

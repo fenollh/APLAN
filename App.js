@@ -26,13 +26,13 @@ const Stack = createStackNavigator();
 export default class App extends React.Component {
 
 
-  TabNavigator({navigation, route}) {
-    const { Username } = route.params;
+  TabNavigator({navigation}) {
+  
     const Navigation = useNavigation();
 
-    const Calendar = calendar => <CalendarScreen user={Username} navigation={Navigation}/>
-    const Home = home => <HomeScreen user={Username}/>
-    const Notes = notes => <NotesScreen user={Username} navigation={Navigation}/>
+    const Calendar = calendar => <CalendarScreen navigation={Navigation}/>
+    const Home = home => <HomeScreen/>
+    const Notes = notes => <NotesScreen navigation={Navigation}/>
 
     return(
     <Tab.Navigator

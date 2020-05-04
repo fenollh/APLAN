@@ -1,5 +1,7 @@
 import React from 'react'
 import * as firebase from 'firebase'
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+
 import{
     View,
     Text,
@@ -18,25 +20,59 @@ import{
     Icon,
 } from 'native-base'
 
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+const firebaseConfig = {
+    apiKey: "AIzaSyAbXkNWtod5WFUFEbWVM6Q1BAmVDbVGAeo",
+    authDomain: "aplan-8bbba.firebaseapp.com",
+    databaseURL: "https://aplan-8bbba.firebaseio.com",
+    projectId: "aplan-8bbba",
+    storageBucket: "aplan-8bbba.appspot.com",
+    messagingSenderId: "502481515083",
+    appId: "1:502481515083:web:79017bc417ac4bf16b53ce",
+    measurementId: "G-QLXPJEZCN3"
+}
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 
 export default class AddReminderScreen extends React.Component{
     
     constructor(props){
         super(props)
         this.state = {
+            UserID: firebase.auth().currentUser.uid,
             choseDate: new Date(),
             stringDate: '',
             Title: '',
             Body: '',
             Radio: [false, true, false],
-            cbNotifications:[false,false,false,false,false],
+            cbNotifications:[false,false,false,false],
+            cbMoreOptions: false,
             inputNotifications:[0,0,0],
         }
     }
 
-    saveNote = (title, date, body, notifications) => {
-        reminder = {'Title': title,'Date': date,'Body': body,'Notifications': notifications}
+    whenSendNotifications = () => {
+        let Notifications = this.state.cbNotifications
+
+        Notifications[0] ?Notifications[0] = 1  :Notifications[0] = 0
+        Notifications[1] ?Notifications[1] = 60  :Notifications[1] = 0
+        Notifications[2] ?Notifications[2] = 1440  :Notifications[2] = 0
+        Notifications[3] ?Notifications[3] = 10080  :Notifications[3] = 0
+
+        this.setState({ cbNotifications: Notifications })
+    }
+
+    saveReminder = () => {
+        this.whenSendNotifications()
+
+        firebase.database().ref('/users/' + this.state.UserID + '/reminders/' + this.state.Title).set({
+            Title: this.state.Title,
+            Body: this.state.Body,
+            Date: this.state.stringDate,
+            Notifications: this.state.cbNotifications,
+        })
+
 
     }
 
@@ -68,22 +104,18 @@ export default class AddReminderScreen extends React.Component{
         const that= this.state.cbNotifications
         switch(pressedCb){
             case 0: 
-                this.setState({ cbNotifications: [!that[0], that[1], that[2], that[3], that[4]] })
+                this.setState({ cbNotifications: [!that[0], that[1], that[2], that[3]] })
                 break
             case 1:
-                this.setState({ cbNotifications: [that[0], !that[1], that[2], that[3], that[4]] })
+                this.setState({ cbNotifications: [that[0], !that[1], that[2], that[3]] })
                 break
                 
             case 2:
-                this.setState({ cbNotifications: [that[0], that[1], !that[2], that[3], that[4]] })
+                this.setState({ cbNotifications: [that[0], that[1], !that[2], that[3]] })
                 break
 
             case 3:
-                this.setState({ cbNotifications: [that[0], that[1], that[2], !that[3], that[4]] })
-                break
-
-            case 4:
-                this.setState({ cbNotifications: [that[0], that[1], that[2], that[3], !that[4]] })
+                this.setState({ cbNotifications: [that[0], that[1], that[2], !that[3]] })
                 break
         }
     }
@@ -119,31 +151,31 @@ export default class AddReminderScreen extends React.Component{
         }
 
         let notificationsFrecuency
-        if(this.state.cbNotifications[1]){
+        if(this.state.cbMoreOptions){
             notificationsFrecuency=
                 <View style={{flex:6, flexDirection: 'column', marginTop:'10%', marginLeft: '3%'}}>
                     <View style={{flex:1}}><Text>  We will warn you:  </Text></View>
                     <View style={{flex: 4, flexDirection: 'row', marginTop:'3%'}}>
                         <View style={{flex:1}}>
                             <CheckBox 
+                                checked={this.state.cbNotifications[1]} 
+                                onPress={() => this.changeCbNotifications(1)}
+                                color='rgb(100,180,255)'/>
+                            <View><Text onPress={() => this.changeCbNotifications(1)}> 1 hour before</Text></View>
+                        </View>
+                        <View style={{flex:1}}>
+                            <CheckBox 
                                 checked={this.state.cbNotifications[2]} 
                                 onPress={() => this.changeCbNotifications(2)}
                                 color='rgb(100,180,255)'/>
-                            <View><Text onPress={() => this.changeCbNotifications(2)}> 1 hour before</Text></View>
+                            <View><Text onPress={() => this.changeCbNotifications(2)}> 1 day before</Text></View>
                         </View>
-                        <View style={{flex:1}}>
+                        <View style={{flex:1}} >
                             <CheckBox 
                                 checked={this.state.cbNotifications[3]} 
                                 onPress={() => this.changeCbNotifications(3)}
                                 color='rgb(100,180,255)'/>
-                            <View><Text onPress={() => this.changeCbNotifications(3)}> 1 day before</Text></View>
-                        </View>
-                        <View style={{flex:1}} >
-                            <CheckBox 
-                                checked={this.state.cbNotifications[4]} 
-                                onPress={() => this.changeCbNotifications(4)}
-                                color='rgb(100,180,255)'/>
-                            <View><Text onPress={() => this.changeCbNotifications(4)}> 1 week before</Text></View>
+                            <View><Text onPress={() => this.changeCbNotifications(3)}> 1 week before</Text></View>
                         </View>
                     </View>
                     <View style={{flex:2, flexDirection: 'row'}}>
@@ -298,12 +330,12 @@ export default class AddReminderScreen extends React.Component{
                         <View style={{flex:4}}/>
                         <View style={styles.moreCheckBox}>
                             <CheckBox 
-                                checked={this.state.cbNotifications[1]} color='rgb(100,180,255)'
-                                onPress={() => this.changeCbNotifications(1)}
+                                checked={this.state.cbMoreOptions} color='rgb(100,180,255)'
+                                onPress={() => this.setState({ cbMoreOptions: !this.state.cbMoreOptions })}
                                 />
                         </View>
                         <View style={styles.moreCheckBoxMessage}>
-                            <Text onPress={() => this.changeCbNotifications(1)}>more options</Text>
+                            <Text onPress={() => this.setState({ cbMoreOptions: !this.state.cbMoreOptions })}>more options</Text>
                         </View>
                     </View>
 
@@ -325,7 +357,7 @@ export default class AddReminderScreen extends React.Component{
 
                     <View style={{flex:1}}>
                         <Button 
-                            onPress={() => this.saveNote(this.state.Title, this.state.choseDate, this.state.Body, this.state.cbNotifications)}
+                            onPress={() => this.saveReminder()}
                             style={styles.addBtn} 
                             iconLeft>
                             <Text style={styles.addBtnTxt}> ADD REMINDER</Text>
