@@ -53,16 +53,24 @@ export default class SignupScreen extends React.Component{
                 Alert.alert('The password must have 6 or more caracters')
                 return
             }
+
             firebase.auth().createUserWithEmailAndPassword(email, password)
-            firebase.database().ref('/users').set({
-                Username: email,
-            })
             Alert.alert('welcome')
-            this.props.navigation.navigate('login')
+
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then(() => this.setDatabase())
+                .then(() => this.props.navigation.navigate('main'))
         }
         catch(error){
             Alert.alert(error.toString())
         }
+    }
+
+    setDatabase = () => {
+        let UserID = firebase.auth().currentUser.uid
+        firebase.database().ref('/users/').set(UserID)
+        .then(firebase.database().ref('/users/' + UserID + '/reminders/remindersCount').set(0))
+        .then(firebase.database().ref('/users/' + UserID + '/note/notesCount').set(0))
     }
 
     render(){

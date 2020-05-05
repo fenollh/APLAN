@@ -10,6 +10,7 @@ import{
     Fab,
     Button,
 } from 'native-base'
+import { FlatList } from 'react-native-gesture-handler';
 
 
 const firebaseConfig = {
@@ -35,12 +36,17 @@ export default class NotesScreen extends React.Component{
         this.state={
             FavouritesFilter: false,
             UserID: firebase.auth().currentUser.uid,
+            NotesData: '',
         }
     }
 
     showFavourites = () => {
-        this.setState({ FavouritesFilter: !this.state.FavouritesFilter })
+        //this.setState({ FavouritesFilter: !this.state.FavouritesFilter })
         //FILTRA SOLO LAS NOTAS FAVORITAS
+        console.log('ID: ' + this.state.UserID)
+        firebase.database().ref('/users/' + this.state.UserID + '/note').on('value', (data) => this.setState({ NotesData: data }))
+        console.log(this.state.NotesData)
+        
     }
 
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import firebase from 'firebase'
+import firebase, { database } from 'firebase'
 import{
     View,
     Text,
@@ -35,14 +35,30 @@ export default class AddNoteScreen extends React.Component {
             Title: '',
             Body: '',
         }
-        this.data = ''
     }
-    addNote = () => {
-        firebase.database().ref('/users/' + this.state.UserID + '/' + this.state.Type + '/' + this.state.Title).set({
+
+    checkNoteCount = () => {
+        let notesCount = firebase.database().ref('/users/' + this.state.UserID + '/note/notesCount').once('value')
+        return notesCount
+    }
+
+    updateNoteCount = (notesCount) => {
+        console.log('en update: ' + notesCount)
+        firebase.database().ref('/users/' + this.state.UserID + '/note/notesCount').set(notesCount + 1)
+    }
+
+    addNote = async () => {
+        let notesCountPromise = await this.checkNoteCount()
+        let notesCount = notesCountPromise.exportVal()
+        
+        firebase.database().ref('/users/' + this.state.UserID + '/note/' + notesCount).set({
             Title: this.state.Title,
             Body: this.state.Body
-        })   
+        })
+
+        this.updateNoteCount(notesCount)
     }
+
 
 
     render(){
@@ -73,7 +89,7 @@ export default class AddNoteScreen extends React.Component {
                         <TextInput 
                             style={styles.inputTit} 
                             placeholder='title' 
-                            maxLength = {50}
+                            maxLength = {36}
                             onChangeText={(title) => this.setState({ Title: title })}/>
                     </View>
                     <View style= {styles.datePick}>
@@ -103,7 +119,7 @@ export default class AddNoteScreen extends React.Component {
             <View style={styles.container}>
 
                 <View style={{flex: 0.8, flexDirection: 'row'}}>
-                    <View style={{flex: 1,}}/>
+                    <View style={{flex: 1,}}><Text>  </Text></View>
                     <View style={{flex:0.5}}>
                         <Button style={styles.noteBtn} onPress={() => this.setState({ Type: 'note' })}>
                             <Text style={styles.noteTxt}> NOTE </Text>
@@ -114,7 +130,7 @@ export default class AddNoteScreen extends React.Component {
                             <Text style={styles.taskTxt}> TASK </Text>
                         </Button>
                     </View>
-                    <View style={{flex: 1}}/>
+                    <View style={{flex: 1}}><Text>  </Text></View>
                 </View>
                
 

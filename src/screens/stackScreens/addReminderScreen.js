@@ -63,18 +63,27 @@ export default class AddReminderScreen extends React.Component{
         this.setState({ cbNotifications: Notifications })
     }
 
-    saveReminder = () => {
-        this.whenSendNotifications()
+    checkReminderCount = () => {
+        let remindersCount = firebase.database().ref('/users/' + this.state.UserID + '/reminders/remindersCount').once('value')
+        return remindersCount
+    }
 
-        firebase.database().ref('/users/' + this.state.UserID + '/reminders/' + this.state.Title).set({
+    updateReminderCount = (remindersCount) => {
+        firebase.database().ref('/users/' + this.state.UserID + '/reminders/remindersCount').set(remindersCount + 1)
+    }
+
+    saveReminder = async () => {
+        let remindersCountPromise = await this.checkReminderCount()
+        let remindersCount = remindersCountPromise.exportVal()
+        
+        firebase.database().ref('/users/' + this.state.UserID + '/reminders/' + remindersCount).set({
             Title: this.state.Title,
             Body: this.state.Body,
-            Date: this.state.stringDate,
-            Notifications: this.state.cbNotifications,
+            StringDate: this.state.stringDate,
             Importance: this.state.Radio,
         })
 
-
+        this.updateReminderCount(remindersCount)
     }
 
     changeRadio = (pressedRad) => {
