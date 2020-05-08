@@ -7,14 +7,14 @@ import { useNavigation } from '@react-navigation/native';
 
 
 import Header from './src/components/header';
-import HomeScreen from './src/screens/tabScreens/home'
-import NotesScreen from './src/screens/tabScreens/notes'
-import CalendarScreen from './src/screens/tabScreens/calendar'
+import HomeScreen from './src/screens/tabScreens/home/home'
+import NotesScreen from './src/screens/tabScreens/notes/notes'
+import CalendarScreen from './src/screens/tabScreens/calendar/calendar'
 
-import AddNoteScreen from './src/screens/stackScreens/addNoteScreen'
-import AddReminderScreen from './src/screens/stackScreens/addReminderScreen'
-import LoginScreen from './src/screens/stackScreens/loginScreen'
-import SignupScreen from './src/screens/stackScreens/signupScreen'
+import AddNoteScreen from './src/screens/stackScreens/addNote/addNoteScreen'
+import AddReminderScreen from './src/screens/stackScreens/addReminder/addReminderScreen'
+import LoginScreen from './src/screens/stackScreens/login/loginScreen'
+import SignupScreen from './src/screens/stackScreens/signup/signupScreen'
 
 import Icon from 'react-native-vector-icons/AntDesign';
 

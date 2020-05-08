@@ -1,8 +1,11 @@
 import React from 'react';
-import {MaterialCommunityIcons, AntDesign} from '@expo/vector-icons'
 import firebase from 'firebase'
-import{View, Text, StyleSheet,} from 'react-native';
-import{Fab, Button,} from 'native-base'
+
+import{View, Text } from 'react-native';
+import{ Fab, Button } from 'native-base'
+import {AntDesign, MaterialIcons} from '@expo/vector-icons'
+
+import styles from './styles'
 
 
 const firebaseConfig = {
@@ -20,25 +23,29 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
-
-export default class CalendarScreen extends React.Component{
+export default class NotesScreen extends React.Component{
 
     constructor(props){
         super(props)
+
         this.state={
             FavouritesFilter: false,
             UserID: firebase.auth().currentUser.uid,
-           
+            NotesData: '',
         }
     }
 
     showFavourites = () => {
-        this.setState({ FavouritesFilter: !this.state.FavouritesFilter })
+        //this.setState({ FavouritesFilter: !this.state.FavouritesFilter })
         //FILTRA SOLO LAS NOTAS FAVORITAS
+        console.log('ID: ' + this.state.UserID)
+        firebase.database().ref('/users/' + this.state.UserID + '/note').on('value', (data) => this.setState({ NotesData: data }))
+        console.log(this.state.NotesData)
+        
     }
 
-    render(){ 
 
+    render(){
         let favouritesIcon
 
         this.state.FavouritesFilter
@@ -46,50 +53,31 @@ export default class CalendarScreen extends React.Component{
         : favouritesIcon = <AntDesign name='staro' size={30} color = {'rgb(52,251,167)'}/>
 
         return(
-            <View style={styles.main}>      
-                <View style={{flex: 1, flexDirection: 'row', marginTop: '1%'}}>
+            <View style={styles.container}>      
+                <View style={styles.subHeader}>
                     <View style= {{flex:7}}>   
-                        <Text style={styles.title}> ESTO ES CALENDAR </Text>         
+                        <Text style={styles.title}> NOTES SCREEN </Text>         
                     </View>
                     <Button
                         iconRight light
                         onPress={() => this.showFavourites()}
-                        style={styles.favourites}>
+                        style={styles.favoutites}>
                         
                         {favouritesIcon}
                     </Button>
                 </View>
-                <View style={{flex: 14}}>
+
+                <View style={styles.body}>
+
                     <Fab
                         position="bottomRight"
                         style={{ backgroundColor: 'rgb(100,180,255)' }}
-                        onPress={() => this.props.navigation.navigate('addReminder')}>
-                        <MaterialCommunityIcons name='reminder' style={{color: 'rgb(52,251,167)', fontSize: 30}}/>
+                        onPress={() => this.props.navigation.navigate('addNote')}
+                        >
+                        <MaterialIcons name='note-add' style={{color: 'rgb(52,251,167)', fontSize: 30}} />
                     </Fab>
                 </View>
             </View>
         )
     }
 } 
-
-const styles = StyleSheet.create({
-    main: {
-        flex: 14,
-        flexDirection: 'column',
-        backgroundColor: 'rgb(230,240,255)',
-    },
-    favourites: {
-        flex:1,
-        width: '20%',
-        borderRadius: 20,
-        justifyContent: 'center',
-        marginEnd: '2%',
-        marginTop: '0%',
-        backgroundColor: 'rgb(100,180,255)',
-    },
-    title: {
-        marginTop: '2%',
-        fontWeight: 'bold',
-        fontSize: 20,
-    }
-})

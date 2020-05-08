@@ -1,17 +1,12 @@
-import React from 'react';
-import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import React from 'react'
 import firebase from 'firebase'
-import{ 
-    Text,
-    StyleSheet
-} from 'react-native';
-import{
-    Container,
-    View,
-    Button,
-    Fab,
-    Icon
-} from 'native-base'
+
+import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
+import{ Text } from 'react-native'
+import{ Container, View, Button, Fab } from 'native-base'
+
+import styles from './styles'
+
 const firebaseConfig = {
     apiKey: "AIzaSyAbXkNWtod5WFUFEbWVM6Q1BAmVDbVGAeo",
     authDomain: "aplan-8bbba.firebaseapp.com",
@@ -65,10 +60,3 @@ export default class HomeScreen extends React.Component{
     }
 } 
 
-const styles = StyleSheet.create({
-
-    main: {
-        flex: 14,
-        backgroundColor: 'rgb(230,240,255)',
-    },
-});
