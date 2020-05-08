@@ -7,6 +7,7 @@ import { MaterialIcons} from '@expo/vector-icons'
 
 import styles from './styles'
 import FavouritesButton from '../../../components/favouritesButton'
+import FabButton from '../../../components/fabButton'
 
 const firebaseConfig = {
     apiKey: "AIzaSyAbXkNWtod5WFUFEbWVM6Q1BAmVDbVGAeo",
@@ -52,14 +53,7 @@ export default class NotesScreen extends React.Component{
                 </View>
 
                 <View style={styles.body}>
-
-                    <Fab
-                        position="bottomRight"
-                        style={{ backgroundColor: 'rgb(100,180,255)' }}
-                        onPress={() => this.props.navigation.navigate('addNote')}
-                        >
-                        <MaterialIcons name='note-add' style={{color: 'rgb(52,251,167)', fontSize: 30}} />
-                    </Fab>
+                    <FabButton type = 'notes' navigation = {this.props.navigation}/>
                 </View>
             </View>
         )
