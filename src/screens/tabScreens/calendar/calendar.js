@@ -1,11 +1,12 @@
 import React from 'react';
 import firebase from 'firebase'
 
-import {MaterialCommunityIcons, AntDesign} from '@expo/vector-icons'
-import{View, Text } from 'react-native';
-import{Fab, Button,} from 'native-base'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { View, Text } from 'react-native';
+import { Fab } from 'native-base'
 
 import styles from './styles'
+import FavouritesButton from '../../../components/favouritesButton'
 
 const firebaseConfig = {
     apiKey: "AIzaSyAbXkNWtod5WFUFEbWVM6Q1BAmVDbVGAeo",
@@ -36,16 +37,9 @@ export default class CalendarScreen extends React.Component{
 
     showFavourites = () => {
         this.setState({ FavouritesFilter: !this.state.FavouritesFilter })
-        //FILTRA SOLO LAS NOTAS FAVORITAS
     }
 
     render(){ 
-
-        let favouritesIcon
-
-        this.state.FavouritesFilter
-        ? favouritesIcon = <AntDesign name='star' size={30} color = {'rgb(255,251,167)'}/>
-        : favouritesIcon = <AntDesign name='staro' size={30} color = {'rgb(52,251,167)'}/>
 
         return(
             <View style={styles.main}>      
@@ -53,13 +47,7 @@ export default class CalendarScreen extends React.Component{
                     <View style= {{flex:7}}>   
                         <Text style={styles.title}> ESTO ES CALENDAR </Text>         
                     </View>
-                    <Button
-                        iconRight light
-                        onPress={() => this.showFavourites()}
-                        style={styles.favourites}>
-                        
-                        {favouritesIcon}
-                    </Button>
+                    <FavouritesButton context={this} />
                 </View>
                 <View style={{flex: 14}}>
                     <Fab

@@ -1,12 +1,12 @@
 import React from 'react';
 import firebase from 'firebase'
 
-import{View, Text } from 'react-native';
-import{ Fab, Button } from 'native-base'
-import {AntDesign, MaterialIcons} from '@expo/vector-icons'
+import { View, Text } from 'react-native';
+import { Fab } from 'native-base'
+import { MaterialIcons} from '@expo/vector-icons'
 
 import styles from './styles'
-
+import FavouritesButton from '../../../components/favouritesButton'
 
 const firebaseConfig = {
     apiKey: "AIzaSyAbXkNWtod5WFUFEbWVM6Q1BAmVDbVGAeo",
@@ -36,21 +36,11 @@ export default class NotesScreen extends React.Component{
     }
 
     showFavourites = () => {
-        //this.setState({ FavouritesFilter: !this.state.FavouritesFilter })
-        //FILTRA SOLO LAS NOTAS FAVORITAS
-        console.log('ID: ' + this.state.UserID)
-        firebase.database().ref('/users/' + this.state.UserID + '/note').on('value', (data) => this.setState({ NotesData: data }))
-        console.log(this.state.NotesData)
-        
+        this.setState({ FavouritesFilter: !this.state.FavouritesFilter })
     }
 
 
     render(){
-        let favouritesIcon
-
-        this.state.FavouritesFilter
-        ? favouritesIcon = <AntDesign name='star' size={30} color = {'rgb(255,251,167)'}/>
-        : favouritesIcon = <AntDesign name='staro' size={30} color = {'rgb(52,251,167)'}/>
 
         return(
             <View style={styles.container}>      
@@ -58,13 +48,7 @@ export default class NotesScreen extends React.Component{
                     <View style= {{flex:7}}>   
                         <Text style={styles.title}> NOTES SCREEN </Text>         
                     </View>
-                    <Button
-                        iconRight light
-                        onPress={() => this.showFavourites()}
-                        style={styles.favoutites}>
-                        
-                        {favouritesIcon}
-                    </Button>
+                    <FavouritesButton context={this} />
                 </View>
 
                 <View style={styles.body}>
