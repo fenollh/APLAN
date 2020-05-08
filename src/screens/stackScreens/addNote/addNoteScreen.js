@@ -150,7 +150,8 @@ export default class AddNoteScreen extends React.Component {
                         block success
                         iconLeft
                         style={styles.addBtn} 
-                        onPress={() => this.addNote()}>
+                        onPress={() => this.addNote()}
+                        >
                         <Text style={styles.addTxt}> ADD {this.type} </Text>
                         <Icon name= 'ios-add' style={{ fontSize: 40, color: 'rgb(52,251,167)'}}/>
                     </Button>

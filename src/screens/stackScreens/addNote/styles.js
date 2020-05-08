@@ -99,14 +99,6 @@ const styles = StyleSheet.create({
         marginTop: '1%'
     },
 
-    addBtn:{
-        flex:1,
-        marginHorizontal: '1%',
-        borderRadius: 20,
-        backgroundColor: 'rgb(100,180,255)',
-        padding: 20,
-    },
-
     optionsBtn: {
         flex: 1,
         justifyContent: 'center',
@@ -116,13 +108,19 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgb(100,180,255)',
     },
 
-    addTxt:{
-        marginLeft: '15%',
+    optionsTxt:{
         fontWeight: 'bold',
         fontSize: 15,
     },
-
-    optionsTxt:{
+    addBtn:{
+        flex:1,
+        marginHorizontal: '1%',
+        borderRadius: 20,
+        backgroundColor: 'rgb(100,180,255)',
+        padding: 20,
+    },
+    addTxt:{
+        marginLeft: '15%',
         fontWeight: 'bold',
         fontSize: 15,
     },
