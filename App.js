@@ -40,26 +40,21 @@ export default class App extends React.Component {
       screenOptions={({ route }) => ({
         tabBarIcon: ({}) => {
           let iconName;
-
-          if (route.name === 'Calendar') {
-            iconName = 'calendar';
-          } else if (route.name === 'Home') {
-            iconName = 'home';
-          } else if (route.name === 'Notes') {
-            iconName = 'file1';
-          }
-
+          if (route.name === 'Calendar')  { iconName = 'calendar' }
+          else if (route.name === 'Home') { iconName = 'home' } 
+          else if (route.name === 'Notes') { iconName = 'file1' }
           return <Icon name={iconName} size={25} color='rgb(52,251,167)' />;
         },
-      })}   
-            
+      })}      
       tabBarOptions={{
         showIcon: true,
         showLabel: false,
       }}>
+
       <Tab.Screen name="Calendar" component={Calendar}/>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Notes" component={Notes} />
+
     </Tab.Navigator>
     )
   }
@@ -84,8 +79,6 @@ export default class App extends React.Component {
   }
   
 }
-
-
 const MyTheme = {
   colors: {
     primary: 'rgb(52,251,167)', 

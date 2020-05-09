@@ -5,6 +5,8 @@ import{ View, Text, TextInput } from 'react-native';
 import { Button, Icon, DatePicker } from 'native-base';
 
 import styles from './styles'
+import AddButton from '../../../components/addButton'
+import MoreOptionsButton from '../../../components/moreOptionsButton'
 
 const firebaseConfig = {
     apiKey: "AIzaSyAbXkNWtod5WFUFEbWVM6Q1BAmVDbVGAeo",
@@ -36,16 +38,16 @@ export default class AddNoteScreen extends React.Component {
     }
 
     checkNoteCount = () => {
-        let notesCount = firebase.database().ref('/users/' + this.state.UserID + '/note/notesCount').once('value')
-        return notesCount
+        //let notesCount = firebase.database().ref('/users/' + this.state.UserID + '/note/notesCount').once('value')
+        //return notesCount
     }
 
     updateNoteCount = (notesCount) => {
-        console.log('en update: ' + notesCount)
-        firebase.database().ref('/users/' + this.state.UserID + '/note/notesCount').set(notesCount + 1)
+        //firebase.database().ref('/users/' + this.state.UserID + '/note/notesCount').set(notesCount + 1)
     }
 
-    addNote = async () => {
+    saveData = async () => {
+        /*
         let notesCountPromise = await this.checkNoteCount()
         let notesCount = notesCountPromise.exportVal()
         
@@ -55,6 +57,7 @@ export default class AddNoteScreen extends React.Component {
         })
 
         this.updateNoteCount(notesCount)
+        */
     }
 
 
@@ -136,25 +139,8 @@ export default class AddNoteScreen extends React.Component {
 
 
                 <View style={styles.footer}> 
-                    <Button 
-                        block info
-                        iconLeft
-                        title='advanced options' 
-                        style={styles.optionsBtn}
-                        >
-                        <Text style={styles.optionsTxt}> ADVANCED OPTIONS </Text>
-                        <Icon name= 'ios-settings' style={{marginRight: '7%', fontSize: 30, color: 'rgb(52,251,167)'}}/>
-                    </Button>
-
-                    <Button 
-                        block success
-                        iconLeft
-                        style={styles.addBtn} 
-                        onPress={() => this.addNote()}
-                        >
-                        <Text style={styles.addTxt}> ADD {this.type} </Text>
-                        <Icon name= 'ios-add' style={{ fontSize: 40, color: 'rgb(52,251,167)'}}/>
-                    </Button>
+                    <MoreOptionsButton context={this}/>
+                    <AddButton context={this}/>
                 </View>
             </View>
         )

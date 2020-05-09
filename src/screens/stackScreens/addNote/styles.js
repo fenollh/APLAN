@@ -99,31 +99,5 @@ const styles = StyleSheet.create({
         marginTop: '1%'
     },
 
-    optionsBtn: {
-        flex: 1,
-        justifyContent: 'center',
-        marginHorizontal: '1%',
-        borderRadius: 20,
-        padding: '6%',
-        backgroundColor: 'rgb(100,180,255)',
-    },
-
-    optionsTxt:{
-        fontWeight: 'bold',
-        fontSize: 15,
-    },
-    addBtn:{
-        flex:1,
-        marginHorizontal: '1%',
-        borderRadius: 20,
-        backgroundColor: 'rgb(100,180,255)',
-        padding: 20,
-    },
-    addTxt:{
-        marginLeft: '15%',
-        fontWeight: 'bold',
-        fontSize: 15,
-    },
-
 })
 export default styles

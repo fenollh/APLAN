@@ -6,6 +6,8 @@ import{ View, Text, TextInput } from 'react-native'
 import{ Button, DatePicker, CheckBox, ListItem, Left, Right, Radio, Icon } from 'native-base'
 
 import styles from './styles'
+import AddButton from '../../../components/addButton'
+import MoreOptionsButton from '../../../components/moreOptionsButton'
 
 const firebaseConfig = {
     apiKey: "AIzaSyAbXkNWtod5WFUFEbWVM6Q1BAmVDbVGAeo",
@@ -59,7 +61,7 @@ export default class AddReminderScreen extends React.Component{
         firebase.database().ref('/users/' + this.state.UserID + '/reminders/remindersCount').set(remindersCount + 1)
     }
 
-    saveReminder = async () => {
+    saveData = async () => {
         let remindersCountPromise = await this.checkReminderCount()
         let remindersCount = remindersCountPromise.exportVal()
         
@@ -342,26 +344,8 @@ export default class AddReminderScreen extends React.Component{
     {/* ESTO ES EL FOOTER */}
 
                 <View style={styles.footer}>
-                    <View style={{flex:1}}>
-                        <Button 
-                            style={styles.optionsBtn}
-                            iconLeft
-                            >
-                            <Text style={styles.optionsBtnTxt}> ADVANCED OPTIONS </Text>
-                            <Icon name="ios-settings" style={{marginLeft: '5%', color: 'rgb(52,251,167)', fontSize: 30}}/>
-                        </Button>
-                    </View>
-
-                    <View style={{flex:1}}>
-                        <Button 
-                            onPress={() => this.saveReminder()}
-                            style={styles.addBtn} 
-                            iconLeft>
-                            <Text style={styles.addBtnTxt}> ADD REMINDER</Text>
-                            <Icon name='ios-add' style={{fontSize: 40, color: 'rgb(52,251,167)', marginRight: '10%'}}/>
-                            
-                        </Button>
-                    </View>
+                    <MoreOptionsButton context={this}/>
+                    <AddButton context={this}/>
                 </View>
             </View>
         )

@@ -2,20 +2,20 @@ import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { Button, Icon } from 'native-base'
 
-const AddButton = () => {
+const AddButton = (props) => {
     return(
         <Button 
             block success
             iconLeft
             style={styles.addBtn} 
-            //onPress={() => props.context.addNote()}
+            onPress={() => props.context.saveData()}
             >
             <Text style={styles.addTxt}> ADD {this.type} </Text>
             <Icon name= 'ios-add' style={{ fontSize: 40, color: 'rgb(52,251,167)'}}/>
         </Button>
     )
 } 
-export {AddButton}
+export default AddButton
 
 const styles = StyleSheet.create({
     addBtn:{

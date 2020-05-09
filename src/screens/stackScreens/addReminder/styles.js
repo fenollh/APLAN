@@ -106,35 +106,8 @@ const styles = StyleSheet.create({
     footer:{
         flex:1.5,
         flexDirection: 'row',
-        marginBottom: '1%'
-    },
-
-    addBtn: {
-        flex:1,
-        marginLeft: '1%',
-        borderRadius: 20,
-        backgroundColor: 'rgb(100,180,255)',
-    },
-
-    addBtnTxt:{
-        marginLeft: '15%',
-        fontWeight: 'bold',
-        fontSize: 15,
-    },
-
-    optionsBtn: {
-        flex: 1,
-        justifyContent: 'center',
-        marginRight: '1%',
-        borderRadius: 20,
-        padding: 20,
-        backgroundColor: 'rgb(100,180,255)',
-    },
-
-    optionsBtnTxt:{
-        marginLeft: '3%',
-        fontWeight: 'bold',
-        fontSize: 15,
+        marginBottom: '1%',
+        marginTop: '1%',
     },
 
 })
