@@ -34,30 +34,24 @@ export default class AddNoteScreen extends React.Component {
             Type: 'note',
             Title: '',
             Body: '',
+            Data: ['pepe', 'juan', 'pedro']
         }
     }
 
-    checkNoteCount = () => {
-        //let notesCount = firebase.database().ref('/users/' + this.state.UserID + '/note/notesCount').once('value')
-        //return notesCount
+    setData = () => {
+        firebase.database().ref('/users/' + this.state.UserID + '/notes/').set(this.state.Data)
+        console.log(this.state.Data)
     }
-
-    updateNoteCount = (notesCount) => {
-        //firebase.database().ref('/users/' + this.state.UserID + '/note/notesCount').set(notesCount + 1)
-    }
-
-    saveData = async () => {
-        /*
-        let notesCountPromise = await this.checkNoteCount()
-        let notesCount = notesCountPromise.exportVal()
-        
-        firebase.database().ref('/users/' + this.state.UserID + '/note/' + notesCount).set({
-            Title: this.state.Title,
-            Body: this.state.Body
+    getData = () => {
+        firebase.database().ref('/users/' + this.state.UserID + '/notes/').on('value', data =>{
+            this.setState({ Data: data.val() })
         })
-
-        this.updateNoteCount(notesCount)
-        */
+    }
+    saveData = async () => {
+        this.getData()
+        this.setState({ Data: [...this.state.Data, 'hugo'] })
+        this.setData()
+        
     }
 
 
