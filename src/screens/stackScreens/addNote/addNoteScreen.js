@@ -44,11 +44,12 @@ export default class AddNoteScreen extends React.Component {
     }
     getData = () => {
         let arrData
-        firebase.database().ref('/users/' + this.state.UserID + '/notes/').on('value', data =>{
-            arrData= data.val()
-        })
         return new Promise((resolve, reject) => {
-            resolve(arrData)
+            firebase.database().ref('/users/' + this.state.UserID + '/notes/').on('value', data =>{
+                arrData= data.val()
+                this.setState({ Data: arrData })
+                resolve(arrData)
+            }) 
         })
     }
     saveData = () => {
