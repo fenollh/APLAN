@@ -38,9 +38,34 @@ export default class AddReminderScreen extends React.Component{
             cbNotifications:[false,false,false,false],
             cbMoreOptions: false,
             inputNotifications:[0,0,0],
+            Data: []
         }
     }
 
+
+    setData = () => {
+        firebase.database().ref('/users/' + this.state.UserID + '/reminders/').set(this.state.Data)
+        console.log(this.state.Data)
+    }
+    getData = () => {
+        let arrData
+        firebase.database().ref('/users/' + this.state.UserID + '/reminders/').on('value', data =>{
+            arrData= data.val()
+        })
+        return new Promise((resolve, reject) => {
+            resolve(arrData)
+        })
+    }
+    saveData = () => {
+        const that = this.state
+        this.getData()
+        .then((data) => {
+            this.setState({ Data: [...that.Data, {title: that.Title, body: that.Body, importance: that.Radio, date: that.stringDate}] })
+        })
+        .then(() => this.setData())   
+    }
+
+    
     whenSendNotifications = () => {
         let Notifications = this.state.cbNotifications
 
@@ -50,29 +75,6 @@ export default class AddReminderScreen extends React.Component{
         Notifications[3] ?Notifications[3] = 10080  :Notifications[3] = 0
 
         this.setState({ cbNotifications: Notifications })
-    }
-
-    checkReminderCount = () => {
-        let remindersCount = firebase.database().ref('/users/' + this.state.UserID + '/reminders/remindersCount').once('value')
-        return remindersCount
-    }
-
-    updateReminderCount = (remindersCount) => {
-        firebase.database().ref('/users/' + this.state.UserID + '/reminders/remindersCount').set(remindersCount + 1)
-    }
-
-    saveData = async () => {
-        let remindersCountPromise = await this.checkReminderCount()
-        let remindersCount = remindersCountPromise.exportVal()
-        
-        firebase.database().ref('/users/' + this.state.UserID + '/reminders/' + remindersCount).set({
-            Title: this.state.Title,
-            Body: this.state.Body,
-            StringDate: this.state.stringDate,
-            Importance: this.state.Radio,
-        })
-
-        this.updateReminderCount(remindersCount)
     }
 
     changeRadio = (pressedRad) => {

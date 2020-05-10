@@ -34,7 +34,7 @@ export default class AddNoteScreen extends React.Component {
             Type: 'note',
             Title: '',
             Body: '',
-            Data: ['pepe', 'juan', 'pedro']
+            Data: []
         }
     }
 
@@ -43,15 +43,20 @@ export default class AddNoteScreen extends React.Component {
         console.log(this.state.Data)
     }
     getData = () => {
+        let arrData
         firebase.database().ref('/users/' + this.state.UserID + '/notes/').on('value', data =>{
-            this.setState({ Data: data.val() })
+            arrData= data.val()
+        })
+        return new Promise((resolve, reject) => {
+            resolve(arrData)
         })
     }
-    saveData = async () => {
+    saveData = () => {
         this.getData()
-        this.setState({ Data: [...this.state.Data, 'hugo'] })
-        this.setData()
-        
+        .then((data) => {
+            this.setState({ Data: [...this.state.Data, {title: this.state.Title, body: this.state.Body}] })
+        })
+        .then(() => this.setData())   
     }
 
 
