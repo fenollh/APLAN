@@ -1,5 +1,4 @@
 import React from 'react'
-import firebase from 'firebase'
 
 import{ View, Text, TextInput } from 'react-native';
 import { Button, Icon, DatePicker } from 'native-base';
@@ -7,21 +6,7 @@ import { Button, Icon, DatePicker } from 'native-base';
 import styles from './styles'
 import AddButton from '../../../components/addButton'
 import MoreOptionsButton from '../../../components/moreOptionsButton'
-
-const firebaseConfig = {
-    apiKey: "AIzaSyAbXkNWtod5WFUFEbWVM6Q1BAmVDbVGAeo",
-    authDomain: "aplan-8bbba.firebaseapp.com",
-    databaseURL: "https://aplan-8bbba.firebaseio.com",
-    projectId: "aplan-8bbba",
-    storageBucket: "aplan-8bbba.appspot.com",
-    messagingSenderId: "502481515083",
-    appId: "1:502481515083:web:79017bc417ac4bf16b53ce",
-    measurementId: "G-QLXPJEZCN3"
-}
-
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
+import saveNote from './dataBaseFunction'
 
 
 export default class AddNoteScreen extends React.Component {
@@ -30,7 +15,6 @@ export default class AddNoteScreen extends React.Component {
         super(props)
 
         this.state= {
-            userID: firebase.auth().currentUser.uid,
             type: 'note',
             title: '',
             body: '',
@@ -38,29 +22,7 @@ export default class AddNoteScreen extends React.Component {
         }
     }
 
-    setData = () => firebase.database().ref('/users/' + this.state.userID + '/notes/').set(this.state.data)
-    
-    getData = () => {
-        return new Promise((resolve) => {
-            firebase.database().ref('/users/' + this.state.userID + '/notes/').on('value', data =>{
-                let arrData= data.val()
-                if(arrData !== null){
-                    this.setState({ data: arrData })
-                }
-                else{
-                    this.setState({ data: ['primero'] })
-                }
-                resolve(arrData)
-            }) 
-        })
-    }
-    saveData = () => {
-        this.getData()
-        .then(() => { this.setState({ data: [...this.state.data, {title: this.state.title, body: this.state.body}] })})
-        .then(() => this.setData())   
-    }
-
-
+    saveData = () => saveNote(this)
 
     render(){
 
