@@ -59,12 +59,14 @@ export default class LoginScreen extends React.Component{
                     <Item floatingLabel>
                         <Label>Email</Label>
                         <Input 
+                            autoCapitalize='none'
                             onChangeText={(email) => this.setState({ Email: email })}/>
                     </Item>
                     <Item floatingLabel style={{marginTop: '3%'}}>
                         <Label>Password</Label>
                         <Input 
                             secureTextEntry={true}
+                            autoCapitalize='none'
                             onChangeText={(password) => this.setState({ Password: password })}/>
                     </Item>
 

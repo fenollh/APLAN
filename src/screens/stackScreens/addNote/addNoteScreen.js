@@ -1,12 +1,12 @@
 import React from 'react'
 
-import{ View, Text, TextInput } from 'react-native';
+import{ View, Text, TextInput, Alert } from 'react-native';
 import { Button, Icon, DatePicker } from 'native-base';
 
 import styles from './styles'
 import AddButton from '../../../components/addButton'
 import MoreOptionsButton from '../../../components/moreOptionsButton'
-import saveNote from './dataBaseFunction'
+import {saveNote} from '../../../dataBaseFunctions/saveData'
 
 
 export default class AddNoteScreen extends React.Component {
@@ -22,7 +22,11 @@ export default class AddNoteScreen extends React.Component {
         }
     }
 
-    saveData = () => saveNote(this)
+    saveData = () => {
+        saveNote(this)
+        Alert.alert('NOTE ADDED')
+        this.props.navigation.navigate('main')
+    }
 
     render(){
 

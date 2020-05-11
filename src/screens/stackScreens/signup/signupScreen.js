@@ -76,22 +76,26 @@ export default class SignupScreen extends React.Component{
                     <Item floatingLabel>
                         <Label>Email</Label>
                         <Input 
+                            autoCapitalize='none'
                             onChangeText={(email) => this.setState({ Email: email })}/>
                     </Item>
                     <Item floatingLabel style={{marginTop: '3%'}}>
                         <Label>Repeat the email</Label>
                         <Input 
+                            autoCapitalize='none'
                             onChangeText={(email) => this.setState({ Email2: email })}/>
                     </Item>
                     <Item floatingLabel style={{marginTop: '10%'}}>
                         <Label>Password</Label>
                         <Input 
+                            autoCapitalize='none'
                             secureTextEntry={true}
                             onChangeText={(password) => this.setState({ Password: password })}/>
                     </Item>
                     <Item floatingLabel style={{marginTop: '3%'}}>
                         <Label>Repeat the password</Label>
                         <Input 
+                            autoCapitalize='none'
                             secureTextEntry={true}
                             onChangeText={(password) => this.setState({ Password2: password })}/>
                     </Item>

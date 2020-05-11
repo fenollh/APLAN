@@ -1,35 +1,20 @@
 import React from 'react'
-import firebase from 'firebase'
 
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import{ View, Text, TextInput } from 'react-native'
+import{ View, Text, TextInput, KeyboardAvoidingView, Alert } from 'react-native'
 import{ Button, DatePicker, CheckBox, ListItem, Left, Right, Radio, Icon } from 'native-base'
 
 import styles from './styles'
 import AddButton from '../../../components/addButton'
 import MoreOptionsButton from '../../../components/moreOptionsButton'
+import {saveReminder} from '../../../dataBaseFunctions/saveData'
 
-const firebaseConfig = {
-    apiKey: "AIzaSyAbXkNWtod5WFUFEbWVM6Q1BAmVDbVGAeo",
-    authDomain: "aplan-8bbba.firebaseapp.com",
-    databaseURL: "https://aplan-8bbba.firebaseio.com",
-    projectId: "aplan-8bbba",
-    storageBucket: "aplan-8bbba.appspot.com",
-    messagingSenderId: "502481515083",
-    appId: "1:502481515083:web:79017bc417ac4bf16b53ce",
-    measurementId: "G-QLXPJEZCN3"
-}
-
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
 
 export default class AddReminderScreen extends React.Component{
     
     constructor(props){
         super(props)
         this.state = {
-            userID: firebase.auth().currentUser.uid,
             choseDate: new Date(),
             stringDate: '',
             title: '',
@@ -42,34 +27,10 @@ export default class AddReminderScreen extends React.Component{
         }
     }
 
-
-    setData = () => {
-        console.log( 'en set' +this.state.data)
-        firebase.database().ref('/users/' + this.state.userID + '/reminders/').set(this.state.data)
-    }
-    getData = () => {
-        return new Promise((resolve) => {
-            firebase.database().ref('/users/' + this.state.userID + '/reminders/').on('value', data =>{
-                let arrData= data.val()
-                if(arrData !== null){
-                    this.setState({ data: arrData })
-                }
-                else{
-                    this.setState({ data: ['primero'] })
-                }
-                resolve(arrData)
-            }) 
-        })
-    }
     saveData = () => {
-        console.log('save')
-        this.getData()
-        .then(() => { 
-            const that = this.state
-            this.setState({ data: [...that.data, {title: that.title, body: that.body, date: that.stringDate, importance: that.radio, notifications: that.cbNotifications}] })
-            console.log('en save' +that.data)
-        })
-        .then(() => this.setData())   
+        saveReminder(this)
+        Alert.alert('REMINDER ADDED')
+        this.props.navigation.navigate('main')
     }
 
     
@@ -128,18 +89,6 @@ export default class AddReminderScreen extends React.Component{
         }
     }
 
-    changeInputNotifications = (time, changedInput) => {
-        const that= this.state.inputNotifications
-        switch(changedInput){
-            case 0:
-                this.setState({ inputNotifications: [time, that[1], that[2]]})
-                break
-            case 1:
-                break
-            case 2:
-                break
-        }
-    }
 
 
     render(){
@@ -162,6 +111,7 @@ export default class AddReminderScreen extends React.Component{
         if(this.state.cbMoreOptions){
             notificationsFrecuency=
                 <View style={{flex:6, flexDirection: 'column', marginTop:'10%', marginLeft: '3%'}}>
+                    
                     <View style={{flex:1}}><Text>  We will warn you:  </Text></View>
                     <View style={{flex: 4, flexDirection: 'row', marginTop:'3%'}}>
                         <View style={{flex:1}}>
@@ -186,35 +136,9 @@ export default class AddReminderScreen extends React.Component{
                             <View><Text onPress={() => this.changeCbNotifications(3)}> 1 week before</Text></View>
                         </View>
                     </View>
-                    <View style={{flex:2, flexDirection: 'row'}}>
-                        <View style={{flex:1, alignItems:'center'}}><Text style={{fontSize: 20, fontWeight:'bold'}}>CUSTOM</Text></View>
-                        <View style={{flex:1, marginRight:'5%'}}>
-                            <TextInput 
-                                keyboardType='number-pad' 
-                                placeholder='mins'
-                                maxLength={2} 
-                                onChangeText={(val)=> this.changeInputNotifications(val, 0)}
-                                style={{borderColor:'black', borderWidth:2, borderRadius:10, marginHorizontal:'15%', padding:5}}/>
-                        </View>
-                        <View style={{flex:1, marginRight:'5%'}}>
-                            <TextInput 
-                                keyboardType='number-pad' 
-                                placeholder='hours'
-                                maxLength={2} 
-                                onChangeText={(val)=> this.changeInputNotifications(val, 1)}
-                                style={{borderColor:'black', borderWidth:2, borderRadius:10, marginHorizontal:'15%', padding:5}}/>
-                        </View>
-                        <View style={{flex:1, marginRight:'5%'}}>
-                            <TextInput 
-                                keyboardType='number-pad' 
-                                placeholder='days'
-                                maxLength={3} 
-                                onChangeText={(val)=> this.changeInputNotifications(val, 2)}
-                                style={{borderColor:'black', borderWidth:2, borderRadius:10, marginHorizontal:'15%', padding:5}}/>
-                        </View>
-
-                    </View>
+                    <View style={{flex:2, flexDirection: 'row'}}/>
                 </View>
+                
         }else{
             notificationsFrecuency= 
             <View style={{flex:6, flexDirection: 'row'}}>
@@ -228,6 +152,7 @@ export default class AddReminderScreen extends React.Component{
 
         return(
             <View style={styles.container}>
+            
 
     {/* ESTO ES EL HEADER */}
 
@@ -279,6 +204,7 @@ export default class AddReminderScreen extends React.Component{
                         </View>
 
                         <View style={styles.importancePicker}>
+                        
                             <View style={{flex:1,paddingStart:'5%', paddingTop:'3%'}}>{importantIcon}</View>
                             <View style={{flex: 4,}}>
 
@@ -322,7 +248,6 @@ export default class AddReminderScreen extends React.Component{
                         </View>
 
                         <View style={{flex: 5}}></View>
-
                     </View>
 
                     <View style={{flex:0.5, flexDirection: 'row'}}>  
@@ -348,6 +273,7 @@ export default class AddReminderScreen extends React.Component{
                     </View>
 
                     {notificationsFrecuency}
+                    
                 </View>
 
     {/* ESTO ES EL FOOTER */}
