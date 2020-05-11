@@ -30,33 +30,33 @@ export default class AddNoteScreen extends React.Component {
         super(props)
 
         this.state= {
-            UserID: firebase.auth().currentUser.uid,
-            Type: 'note',
-            Title: '',
-            Body: '',
-            Data: []
+            userID: firebase.auth().currentUser.uid,
+            type: 'note',
+            title: '',
+            body: '',
+            data: []
         }
     }
 
-    setData = () => {
-        firebase.database().ref('/users/' + this.state.UserID + '/notes/').set(this.state.Data)
-        console.log(this.state.Data)
-    }
+    setData = () => firebase.database().ref('/users/' + this.state.userID + '/notes/').set(this.state.data)
+    
     getData = () => {
-        let arrData
-        return new Promise((resolve, reject) => {
-            firebase.database().ref('/users/' + this.state.UserID + '/notes/').on('value', data =>{
-                arrData= data.val()
-                this.setState({ Data: arrData })
+        return new Promise((resolve) => {
+            firebase.database().ref('/users/' + this.state.userID + '/notes/').on('value', data =>{
+                let arrData= data.val()
+                if(arrData !== null){
+                    this.setState({ data: arrData })
+                }
+                else{
+                    this.setState({ data: ['primero'] })
+                }
                 resolve(arrData)
             }) 
         })
     }
     saveData = () => {
         this.getData()
-        .then((data) => {
-            this.setState({ Data: [...this.state.Data, {title: this.state.Title, body: this.state.Body}] })
-        })
+        .then(() => { this.setState({ data: [...this.state.data, {title: this.state.title, body: this.state.body}] })})
         .then(() => this.setData())   
     }
 
@@ -66,21 +66,21 @@ export default class AddNoteScreen extends React.Component {
 
         let inputType
 
-        if(this.state.Type == 'note'){
+        if(this.state.type == 'note'){
             inputType =  
             <View style={{flex: 12, marginTop: '2%'}}>
                 <TextInput 
                     style={styles.inputTit} 
                     placeholder='titulo' 
                     maxLength = {50}
-                    onChangeText={(title) => this.setState({ Title: title })}/>
+                    onChangeText={(title) => this.setState({ title })}/>
                 <TextInput 
                     style= {styles.inputBod} 
                     multiline={true} 
                     placeholder='cuerpo' 
                     scrollEnabled={true}
                     textAlignVertical='top'
-                    onChangeText={(body) => this.setState({ Body:body })}/>
+                    onChangeText={(body) => this.setState({ body })}/>
             </View>
         }else{
             inputType = 
@@ -91,7 +91,7 @@ export default class AddNoteScreen extends React.Component {
                             style={styles.inputTit} 
                             placeholder='title' 
                             maxLength = {36}
-                            onChangeText={(title) => this.setState({ Title: title })}/>
+                            onChangeText={(title) => this.setState({ title })}/>
                     </View>
                     <View style= {styles.datePick}>
                         <DatePicker
@@ -111,7 +111,7 @@ export default class AddNoteScreen extends React.Component {
                         placeholder='What do you have to do?' 
                         scrollEnabled={true}
                         textAlignVertical='top'
-                        onChangeText={(title) => this.setState({ Title: title })}/>
+                        onChangeText={(title) => this.setState({ title })}/>
                 </View>
             </View>
         }
@@ -122,12 +122,12 @@ export default class AddNoteScreen extends React.Component {
                 <View style={{flex: 0.8, flexDirection: 'row'}}>
                     <View style={{flex: 1,}}><Text>  </Text></View>
                     <View style={{flex:0.5}}>
-                        <Button style={styles.noteBtn} onPress={() => this.setState({ Type: 'note' })}>
+                        <Button style={styles.noteBtn} onPress={() => this.setState({ type: 'note' })}>
                             <Text style={styles.noteTxt}> NOTE </Text>
                         </Button>
                     </View>
                     <View style={{flex:0.5}}>
-                        <Button style={styles.taskBtn} onPress={() => this.setState({ Type: 'task' })}>
+                        <Button style={styles.taskBtn} onPress={() => this.setState({ type: 'task' })}>
                             <Text style={styles.taskTxt}> TASK </Text>
                         </Button>
                     </View>

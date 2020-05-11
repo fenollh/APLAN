@@ -29,75 +29,82 @@ export default class AddReminderScreen extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            UserID: firebase.auth().currentUser.uid,
+            userID: firebase.auth().currentUser.uid,
             choseDate: new Date(),
             stringDate: '',
-            Title: '',
-            Body: '',
-            Radio: [false, true, false],
+            title: '',
+            body: '',
+            radio: [false, true, false],
             cbNotifications:[false,false,false,false],
             cbMoreOptions: false,
             inputNotifications:[0,0,0],
-            Data: []
+            data: []
         }
     }
 
 
     setData = () => {
-        firebase.database().ref('/users/' + this.state.UserID + '/reminders/').set(this.state.Data)
-        console.log(this.state.Data)
+        console.log( 'en set' +this.state.data)
+        firebase.database().ref('/users/' + this.state.userID + '/reminders/').set(this.state.data)
     }
     getData = () => {
-        let arrData
-        firebase.database().ref('/users/' + this.state.UserID + '/reminders/').on('value', data =>{
-            arrData= data.val()
-        })
-        return new Promise((resolve, reject) => {
-            resolve(arrData)
+        return new Promise((resolve) => {
+            firebase.database().ref('/users/' + this.state.userID + '/reminders/').on('value', data =>{
+                let arrData= data.val()
+                if(arrData !== null){
+                    this.setState({ data: arrData })
+                }
+                else{
+                    this.setState({ data: ['primero'] })
+                }
+                resolve(arrData)
+            }) 
         })
     }
     saveData = () => {
-        const that = this.state
+        console.log('save')
         this.getData()
-        .then((data) => {
-            this.setState({ Data: [...that.Data, {title: that.Title, body: that.Body, importance: that.Radio, date: that.stringDate}] })
+        .then(() => { 
+            const that = this.state
+            this.setState({ data: [...that.data, {title: that.title, body: that.body, date: that.stringDate, importance: that.radio, notifications: that.cbNotifications}] })
+            console.log('en save' +that.data)
         })
         .then(() => this.setData())   
     }
 
     
     whenSendNotifications = () => {
-        let Notifications = this.state.cbNotifications
+        let notifications = this.state.cbNotifications
 
-        Notifications[0] ?Notifications[0] = 1  :Notifications[0] = 0
-        Notifications[1] ?Notifications[1] = 60  :Notifications[1] = 0
-        Notifications[2] ?Notifications[2] = 1440  :Notifications[2] = 0
-        Notifications[3] ?Notifications[3] = 10080  :Notifications[3] = 0
+        notifications[0] ?notifications[0] = 1  :notifications[0] = 0
+        notifications[1] ?notifications[1] = 60  :notifications[1] = 0
+        notifications[2] ?notifications[2] = 1440  :notifications[2] = 0
+        notifications[3] ?notifications[3] = 10080  :notifications[3] = 0
 
-        this.setState({ cbNotifications: Notifications })
+        this.setState({ cbNotifications: notifications })
     }
 
     changeRadio = (pressedRad) => {
         switch(pressedRad){
             case 0:
-                !this.state.Radio[0] 
-                ?this.setState({ Radio: [true, false, false]})
-                :this.setState({ Radio: [false, this.state.Radio[1], this.state.Radio[2]] })
+                !this.state.radio[0] 
+                ?this.setState({ radio: [true, false, false]})
+                :this.setState({ radio: [false, this.state.radio[1], this.state.radio[2]] })
                 break
 
             case 1:
-                !this.state.Radio[1]
-                ?this.setState({ Radio: [false, true, false]})
-                :this.setState({ Radio: [this.state.Radio[0], false, this.state.Radio[2]] })
+                !this.state.radio[1]
+                ?this.setState({ radio: [false, true, false]})
+                :this.setState({ radio: [this.state.radio[0], false, this.state.radio[2]] })
                 break
                 
             case 2:
-                !this.state.Radio[2]
-                ?this.setState({ Radio: [false, false, true]})
-                :this.setState({ Radio: [this.state.Radio[0], this.state.Radio[1], false] })
+                !this.state.radio[2]
+                ?this.setState({ radio: [false, false, true]})
+                :this.setState({ radio: [this.state.radio[0], this.state.radio[1], false] })
                 break
             default:
-                this.setState({ Radio: [true, true, true] })
+                this.setState({ radio: [true, true, true] })
         }
     }
 
@@ -138,13 +145,13 @@ export default class AddReminderScreen extends React.Component{
     render(){
 
         let importantIcon
-        if(this.state.Radio[0]){
+        if(this.state.radio[0]){
             importantIcon= <MaterialCommunityIcons name='alert-decagram' size={60} color='rgb(230,0,0)'/>
         }
-        else if(this.state.Radio[1]){
+        else if(this.state.radio[1]){
             importantIcon= <MaterialCommunityIcons name='calendar-alert' size={60} color='rgb(255,190,0)'/>
         }
-        else if(this.state.Radio[2]){
+        else if(this.state.radio[2]){
             importantIcon= <MaterialCommunityIcons name='bell-alert' size={60} color='rgb(0,210,0)'/>
         }
         else {
@@ -238,7 +245,7 @@ export default class AddReminderScreen extends React.Component{
                             placeholderTextColor="rgb(150,150,150)"
                             multiline = {false}
                             maxLength ={50}
-                            onChangeText={(title) => this.setState({ Title: title })}
+                            onChangeText={(title) => this.setState({ title: title })}
                             />
                     </View>
 
@@ -262,7 +269,7 @@ export default class AddReminderScreen extends React.Component{
                             placeholderTextColor="rgb(150,150,150)"
                             multiline = {true}
                             scrollEnabled = {true}
-                            onChangeText = {(body) => this.setState({ Body: body })}
+                            onChangeText = {(body) => this.setState({ body: body })}
                             />
                     </View>
 
@@ -278,7 +285,7 @@ export default class AddReminderScreen extends React.Component{
                                 <ListItem onPress={()=> this.changeRadio(0)}>
                                     <Left style={{flex:1}}>
                                         <Radio 
-                                            selected={this.state.Radio[0]} 
+                                            selected={this.state.radio[0]} 
                                             onPress={()=> this.changeRadio(0)} 
                                             selectedColor='rgb(230,0,0)'/>
                                     </Left>
@@ -290,7 +297,7 @@ export default class AddReminderScreen extends React.Component{
                                 <ListItem onPress={()=> this.changeRadio(1)}>
                                     <Left style={{flex: 1}}>
                                         <Radio 
-                                            selected={this.state.Radio[1]} 
+                                            selected={this.state.radio[1]} 
                                             onPress={()=> this.changeRadio(1)}
                                             selectedColor='rgb(255,190,0)'/>
                                     </Left>
@@ -302,7 +309,7 @@ export default class AddReminderScreen extends React.Component{
                                 <ListItem onPress={()=> this.changeRadio(2)}>
                                     <Left style={{flex:1}}>
                                         <Radio 
-                                            selected={this.state.Radio[2]} 
+                                            selected={this.state.radio[2]} 
                                             onPress={()=> this.changeRadio(2)}
                                             selectedColor='rgb(0,210,0)'/>
                                     </Left>
