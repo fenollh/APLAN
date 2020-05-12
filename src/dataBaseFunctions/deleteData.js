@@ -1,4 +1,3 @@
-import React from 'react'
 import firebase from 'firebase'
 import { Alert } from 'react-native';
 
@@ -20,5 +19,6 @@ if (!firebase.apps.length) {
 
 const deleteData = (index, type) => {
     Alert.alert('DELETED ' + index + type)
+    firebase.database().ref('/users/' + firebase.auth().currentUser.uid + '/' + type + '/' + index + '/').remove()
 }
 export {deleteData}

@@ -34,7 +34,11 @@ const NotesList = (props) => {
         <View style = {styles.list}>
             <FlatList
             data={props.context.state.data}
-            renderItem={({ item, index }) => renderItem(item, index)}
+            renderItem={({ item, index }) => {
+                if(item !== undefined){
+                    return renderItem(item, index)
+                }
+            }}
             keyExtractor={(item, index) => index.toString()}
             />
         </View>
