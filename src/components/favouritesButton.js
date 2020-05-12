@@ -13,7 +13,7 @@ const renderIcon = (status) => {
     
 }
 const FavouritesButton = (props) => {
-    let status = props.context.state.FavouritesFilter
+    let status = props.context.state.favouritesFilter
     return(
         <Button
             iconRight light

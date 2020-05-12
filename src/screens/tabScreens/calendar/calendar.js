@@ -32,14 +32,14 @@ export default class CalendarScreen extends React.Component{
         
         console.ignoredYellowBox = ['Setting a timer'];
         this.state={
-            FavouritesFilter: false,
+            favouritesFilter: false,
             UserID: firebase.auth().currentUser.uid,
            
         }
     }
 
     showFavourites = () => {
-        this.setState({ FavouritesFilter: !this.state.FavouritesFilter })
+        this.setState({ favouritesFilter: !this.state.favouritesFilter })
     }
 
     render(){ 

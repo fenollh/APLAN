@@ -6,6 +6,7 @@ import styles from './styles'
 import FavouritesButton from '../../../components/favouritesButton'
 import FabButton from '../../../components/fabButton'
 import { getData } from '../../../dataBaseFunctions/saveData'
+import NotesList from './notesList'
 
 
 export default class NotesScreen extends React.Component{
@@ -22,6 +23,7 @@ export default class NotesScreen extends React.Component{
 
     showFavourites = () => {
         this.setState({ favouritesFilter: !this.state.favouritesFilter })
+        console.log(this.state.favouritesFilter)
     }
 
     componentDidMount = () => {
@@ -41,15 +43,7 @@ export default class NotesScreen extends React.Component{
                 </View>
 
                 <View style={styles.body}>
-                    <View style = {styles.list}>
-                        <FlatList
-                        data={this.state.data}
-                        renderItem={({ item }) => (
-                            <Text key={item.title}>{item.title}</Text>
-                        )}
-                        keyExtractor={(item, index) => index.toString()}
-                        />
-                    </View>
+                    <NotesList context={this}/>
                     <FabButton type = 'notes' navigation = {this.props.navigation}/>
                 </View>
             </View>
