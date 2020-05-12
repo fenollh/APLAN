@@ -29,6 +29,8 @@ export default class CalendarScreen extends React.Component{
 
     constructor(props){
         super(props)
+        
+        console.ignoredYellowBox = ['Setting a timer'];
         this.state={
             FavouritesFilter: false,
             UserID: firebase.auth().currentUser.uid,

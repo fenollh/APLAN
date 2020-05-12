@@ -12,6 +12,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row', 
         marginTop: '1%'
     },
+    list: {
+        flex: 1,
+    },
 
     favoutites: {
         flex:1,

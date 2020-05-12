@@ -54,3 +54,4 @@ const saveReminder = (context) => {
 
 export {saveNote}
 export {saveReminder}
+export {getData}

@@ -26,6 +26,8 @@ if (!firebase.apps.length) {
 export default class HomeScreen extends React.Component{
     constructor(props){
         super(props)
+        
+        console.ignoredYellowBox = ['Setting a timer'];
         this.state = {
             fabActive: false,
             UserID: firebase.auth().currentUser.uid,
