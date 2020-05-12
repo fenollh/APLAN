@@ -23,7 +23,6 @@ export default class NotesScreen extends React.Component{
 
     showFavourites = () => {
         this.setState({ favouritesFilter: !this.state.favouritesFilter })
-        console.log(this.state.favouritesFilter)
     }
 
     componentDidMount = () => {

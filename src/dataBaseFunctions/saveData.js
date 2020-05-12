@@ -20,16 +20,15 @@ if (!firebase.apps.length) {
 
 const setData = (context, type) => {
     firebase.database().ref('/users/' + firebase.auth().currentUser.uid + '/' + type + '/').set(context.state.data)
+    
 }
     
 const getData = (context, type) => {
     return new Promise((resolve) => {
         firebase.database().ref('/users/' + firebase.auth().currentUser.uid + '/' + type + '/').on('value', data =>{
             let arrData= data.val()
-            console.log(data)
             if(arrData !== null){
                 context.setState({ data: arrData })
-                //console.log('arrData en get: '+arrData)
             }
             else{
                 context.setState({ data: ['primero'] })
@@ -44,7 +43,6 @@ const saveNote = (context) => {
     getData(context, 'notes')
     .then(() => { 
         context.setState({ data: [...context.state.data, {title: context.state.title, body: context.state.body}] })
-        //console.log('state en save: '+context.state.data)
     })
     .then(() => {
         setData(context, 'notes')}) 
@@ -63,3 +61,4 @@ const saveReminder = (context) => {
 export {saveNote}
 export {saveReminder}
 export {getData}
+export {setData}

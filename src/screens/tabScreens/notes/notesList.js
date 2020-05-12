@@ -4,12 +4,16 @@ import { Button } from 'native-base'
 import { MaterialCommunityIcons } from 'react-native-vector-icons'
 
 import {deleteData} from '../../../dataBaseFunctions/deleteData'
+import {setData} from '../../../dataBaseFunctions/saveData'
 
 
-const deleteNote = (index) => {
-    deleteData(index, 'notes')
+const deleteNote = async (index, context) => {
+    let arrData = context.state.data
+    arrData.splice(index,1)
+    context.setState({ data: arrData })
+    setData(context, 'notes')
 }
-const renderItem = (item, index) => {
+const renderItem = (item, index, context) => {
     if(item.title || item.body){
         return (
             <View style={styles.item}>
@@ -19,7 +23,7 @@ const renderItem = (item, index) => {
                     <Button 
                         style={styles.deleteButton}
                         icon
-                        onPress={() => deleteNote(index)}>
+                        onPress={() => deleteNote(index, context)}>
                         <MaterialCommunityIcons name= 'delete' style={styles.deleteIcon}/>
                     </Button>
                 </View>
@@ -36,7 +40,7 @@ const NotesList = (props) => {
             data={props.context.state.data}
             renderItem={({ item, index }) => {
                 if(item !== undefined){
-                    return renderItem(item, index)
+                    return renderItem(item, index, props.context)
                 }
             }}
             keyExtractor={(item, index) => index.toString()}
