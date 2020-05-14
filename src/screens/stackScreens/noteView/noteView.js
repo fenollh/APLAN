@@ -2,6 +2,9 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
 import { getData } from '../../../dataBaseFunctions/saveData'
+import { FontAwesome5 } from 'react-native-vector-icons'
+import { Button } from 'native-base'
+import { TextInput } from 'react-native-paper'
 
 export default class NoteView extends React.Component {
     constructor(props){
@@ -10,7 +13,8 @@ export default class NoteView extends React.Component {
             index: this.props.route.params.index,
             data: [],
             title: '',
-            body: ''
+            body: '',
+            readOnly: true,
         }
     }
 
@@ -23,18 +27,44 @@ export default class NoteView extends React.Component {
     }
     
     render(){
+        let dataView
+        if(this.state.readOnly){
+            dataView = 
+            <View style={{flex:11}}>
+                <View style={styles.title}>
+                    <Text style={styles.titleTxt}>{this.state.title}</Text>
+                </View>
+                <View style={styles.body}>
+                    <Text style={styles.bodyTxt}>{this.state.body}</Text>
+                </View>
+            </View>
+        }else{
+            dataView = 
+            <View style={{flex: 11}}>
+                <View style={styles.title}>
+                </View>
+                <View style={styles.body}>
+                </View>
+            </View>
+        }
+
+
+
         return(
             <View style={styles.container}>
     
                 <View style={styles.main}>
-                    <View style={styles.title}>
-                        <Text style={styles.titleTxt}>{this.state.title}</Text>
-                    </View>
-                    <View style={styles.body}>
-                        <Text style={styles.bodyTxt}>{this.state.body}</Text>
+                    {dataView}
+                    <View style={{ alignItems: 'flex-end' }}>
+                        <Button
+                        style={styles.editButton}
+                        icon
+                        onPress={() => this.setState({ readOnly: !this.state.readOnly })}>
+                            <FontAwesome5 name='edit' style={styles.editIcon}/>
+                        </Button>
                     </View>
                 </View>
-    
+
             </View>
         )
     }
@@ -49,6 +79,7 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection: 'column',
         margin: '2%',
+        marginBottom: '5%',
         backgroundColor: 'rgb(220, 235,255)',
         borderRadius: 50,
     },
@@ -68,4 +99,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 20,
     },  
+    editButton:{
+        height: 60,
+        width: 60,
+        marginEnd: '3%',
+        borderRadius: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgb(100,180,255)'
+    },
+    editIcon:{
+        fontSize: 30,
+        color: 'rgb(52,251,167)'
+    },
 })
