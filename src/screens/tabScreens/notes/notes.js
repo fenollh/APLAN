@@ -26,6 +26,7 @@ export default class NotesScreen extends React.Component{
     }
 
     componentDidMount = () => {
+
         getData(this, 'notes')
     }
 

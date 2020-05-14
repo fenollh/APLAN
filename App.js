@@ -15,6 +15,7 @@ import AddNoteScreen from './src/screens/stackScreens/addNote/addNoteScreen'
 import AddReminderScreen from './src/screens/stackScreens/addReminder/addReminderScreen'
 import LoginScreen from './src/screens/stackScreens/login/loginScreen'
 import SignupScreen from './src/screens/stackScreens/signup/signupScreen'
+import NoteView from './src/screens/stackScreens/noteView/noteView'
 
 import Icon from 'react-native-vector-icons/AntDesign';
 
@@ -71,6 +72,7 @@ export default class App extends React.Component {
               <Stack.Screen name = 'main' component = {this.TabNavigator}/>
               <Stack.Screen name = 'addNote' component={AddNoteScreen}/>
               <Stack.Screen name = 'addReminder' component={AddReminderScreen}/>
+              <Stack.Screen name = 'noteView' component={NoteView}/>
 
             </Stack.Navigator>
           </NavigationContainer>

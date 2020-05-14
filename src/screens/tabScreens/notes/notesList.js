@@ -1,10 +1,10 @@
 import React from 'react'
-import { View, Text, FlatList, StyleSheet, Alert } from 'react-native'
-import { Button } from 'native-base'
-import { MaterialCommunityIcons } from 'react-native-vector-icons'
+import { View, Text, FlatList, StyleSheet, Alert, TouchableOpacity } from 'react-native'
 
-import {deleteData} from '../../../dataBaseFunctions/deleteData'
+import { MaterialCommunityIcons, AntDesign } from 'react-native-vector-icons'
+
 import {setData} from '../../../dataBaseFunctions/saveData'
+
 
 
 const deleteNote = async (index, context) => {
@@ -13,27 +13,23 @@ const deleteNote = async (index, context) => {
     context.setState({ data: arrData })
     setData(context, 'notes')
 }
+
 const renderItem = (item, index, context) => {
     if(item.title || item.body){
         return (
-            <View style={styles.item}>
+            <TouchableOpacity  style={styles.item} onPress={()=>context.props.navigation.navigate('noteView', {index: index})}>
                 <Text style={styles.textItem}>{item.title}</Text>
-                <View style = {{flex: 1}}/>
-                <View style={{flex: 1, justifyContent: 'center',}}>
-                    <Button 
-                        style={styles.deleteButton}
-                        icon
-                        onPress={() => deleteNote(index, context)}>
-                        <MaterialCommunityIcons name= 'delete' style={styles.deleteIcon}/>
-                    </Button>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'flex-end'}}>
                 </View>
-            </View>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <MaterialCommunityIcons name= 'delete' style={styles.deleteIcon} onPress={() => deleteNote(index, context)}/>
+                </View>
+            </TouchableOpacity>
         )
     }
 }
 
 const NotesList = (props) => {
-
     return(
         <View style = {styles.list}>
             <FlatList
@@ -61,23 +57,25 @@ const styles = StyleSheet.create({
         height: 60,
         width: '95%',
         margin: 2,
+        marginTop: 5,
         padding: 15,
-        backgroundColor: 'yellow',
+        backgroundColor: 'rgb(160,230,255)',
         borderColor: 'black',
-        borderWidth: 2,
+        borderWidth: 1,
         borderRadius: 10,
     },
     textItem: {
-        flex: 3,
-        backgroundColor: 'green'
-    },
-    deleteButton: {
-        justifyContent: 'center',
-        borderRadius: 20,
-        backgroundColor: 'yellow'
+        flex: 5,
+        fontSize: 20,
+        fontWeight: 'bold',
     },
     deleteIcon: {
         fontSize: 30,
         color: 'red'
+    },
+
+    favouriteIcon: {
+        fontSize: 30,
+        color: 'yellow'
     }
 })
