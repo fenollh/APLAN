@@ -1,10 +1,11 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TextInput } from 'react-native'
 
 import { getData } from '../../../dataBaseFunctions/saveData'
+import { updateData } from '../../../dataBaseFunctions/updateData'
+
 import { FontAwesome5 } from 'react-native-vector-icons'
-import { Button } from 'native-base'
-import { TextInput } from 'react-native-paper'
+import { Button, Icon } from 'native-base'
 
 export default class NoteView extends React.Component {
     constructor(props){
@@ -27,8 +28,18 @@ export default class NoteView extends React.Component {
     }
     
     render(){
+        let button
         let dataView
         if(this.state.readOnly){
+
+            button =
+            <Button
+                style={styles.editButton}
+                icon
+                onPress={() => this.setState({ readOnly: !this.state.readOnly })}>
+                <FontAwesome5 name='edit' style={{ fontSize: 30, color: 'rgb(52,251,167)'}}/>
+            </Button>
+
             dataView = 
             <View style={{flex:11}}>
                 <View style={styles.title}>
@@ -39,11 +50,32 @@ export default class NoteView extends React.Component {
                 </View>
             </View>
         }else{
+
+            button =
+            <Button
+                style={styles.editButton}
+                icon
+                onPress={() => {
+                    updateData(this, this.state.index)
+                    this.setState({ readOnly: !this.state.readOnly })
+                }}>
+                <Icon name='ios-add' style={{ fontSize: 50, color: 'rgb(52,251,167)'}}/>
+            </Button>
+
             dataView = 
             <View style={{flex: 11}}>
                 <View style={styles.title}>
+                    <TextInput
+                        value = {this.state.title}
+                        onChangeText={(title) => this.setState({ title })}
+                    />
                 </View>
                 <View style={styles.body}>
+                    <TextInput
+                        value = {this.state.body}
+                        multiline = {true}
+                        onChangeText={(body) => this.setState({ body })}
+                        />
                 </View>
             </View>
         }
@@ -56,12 +88,7 @@ export default class NoteView extends React.Component {
                 <View style={styles.main}>
                     {dataView}
                     <View style={{ alignItems: 'flex-end' }}>
-                        <Button
-                        style={styles.editButton}
-                        icon
-                        onPress={() => this.setState({ readOnly: !this.state.readOnly })}>
-                            <FontAwesome5 name='edit' style={styles.editIcon}/>
-                        </Button>
+                        {button}
                     </View>
                 </View>
 
@@ -107,9 +134,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'rgb(100,180,255)'
-    },
-    editIcon:{
-        fontSize: 30,
-        color: 'rgb(52,251,167)'
     },
 })

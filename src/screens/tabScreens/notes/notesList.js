@@ -4,6 +4,7 @@ import { View, Text, FlatList, StyleSheet, Alert, TouchableOpacity } from 'react
 import { MaterialCommunityIcons, AntDesign } from 'react-native-vector-icons'
 
 import {setData} from '../../../dataBaseFunctions/saveData'
+import { deleteData } from '../../../dataBaseFunctions/deleteData'
 
 
 
@@ -22,7 +23,7 @@ const renderItem = (item, index, context) => {
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'flex-end'}}>
                 </View>
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                    <MaterialCommunityIcons name= 'delete' style={styles.deleteIcon} onPress={() => deleteNote(index, context)}/>
+                    <MaterialCommunityIcons name= 'delete' style={styles.deleteIcon} onPress={() => deleteData(index, context, 'notes')}/>
                 </View>
             </TouchableOpacity>
         )
