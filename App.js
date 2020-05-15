@@ -18,6 +18,7 @@ import SignupScreen from './src/screens/stackScreens/signup/signupScreen'
 import NoteView from './src/screens/stackScreens/noteView/noteView'
 
 import Icon from 'react-native-vector-icons/AntDesign';
+import ReminderView from './src/screens/stackScreens/reminderView/reminderView';
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -73,6 +74,7 @@ export default class App extends React.Component {
               <Stack.Screen name = 'addNote' component={AddNoteScreen}/>
               <Stack.Screen name = 'addReminder' component={AddReminderScreen}/>
               <Stack.Screen name = 'noteView' component={NoteView}/>
+              <Stack.Screen name = 'reminderView' component={ReminderView}/>
 
             </Stack.Navigator>
           </NavigationContainer>

@@ -4,24 +4,26 @@ import { View, Text, FlatList, StyleSheet, Alert, TouchableOpacity } from 'react
 import { MaterialCommunityIcons, AntDesign } from 'react-native-vector-icons'
 
 import { deleteData } from '../../../dataBaseFunctions/deleteData'
+import { TextInput } from 'react-native-gesture-handler'
 
 
 const renderItem = (item, index, context) => {
     if(item.title || item.body){
         return (
-            <TouchableOpacity  style={styles.item} onPress={()=>context.props.navigation.navigate('noteView', {index: index})}>
+            <TouchableOpacity  style={styles.item} onPress={()=>context.props.navigation.navigate('reminderView', {index: index})}>
                 <Text style={styles.textItem}>{item.title}</Text>
-                <View style={{flex: 1, justifyContent: 'center', alignItems: 'flex-end'}}>
+                <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
+                    <Text>{item.date}</Text>
                 </View>
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                    <MaterialCommunityIcons name= 'delete' style={styles.deleteIcon} onPress={() => deleteData(index, context, 'notes')}/>
+                    <MaterialCommunityIcons name= 'delete' style={styles.deleteIcon} onPress={() => deleteData(index, context, 'reminders')}/>
                 </View>
             </TouchableOpacity>
         )
     }
 }
 
-const NotesList = (props) => {
+const RemindersList = (props) => {
     return(
         <View style = {styles.list}>
             <FlatList
@@ -36,7 +38,7 @@ const NotesList = (props) => {
         </View>
     )
 }
-export default NotesList
+export default RemindersList
 
 const styles = StyleSheet.create({
     list: {
@@ -57,7 +59,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     textItem: {
-        flex: 5,
+        flex: 4,
         fontSize: 20,
         fontWeight: 'bold',
     },
