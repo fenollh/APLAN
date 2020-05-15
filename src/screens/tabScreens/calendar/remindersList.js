@@ -8,9 +8,21 @@ import { TextInput } from 'react-native-gesture-handler'
 
 
 const renderItem = (item, index, context) => {
+    
     if(item.title || item.body){
+
+        let importanceIcon
+        console.log(item.importance)
+        if(item.importance[0]) {importanceIcon = <MaterialCommunityIcons name='alert-decagram' size={40} color='rgb(230,0,0)'/>}
+        else if (item.importance[1]) importanceIcon = <MaterialCommunityIcons name='calendar-alert' size={40} color='rgb(255,190,0)'/>
+        else if (item.importance[2]) importanceIcon = <MaterialCommunityIcons name='bell-alert' size={40} style={{marginEnd: '10%'}} color='rgb(0,210,0)'/>
+        else {importanceIcon= <MaterialCommunityIcons name='calendar-clock' size={40} color='rgb(100,180,255)'/>}
+
         return (
             <TouchableOpacity  style={styles.item} onPress={()=>context.props.navigation.navigate('reminderView', {index: index})}>
+                <View style={{flex:1, justifyContent: 'center'}}>
+                    {importanceIcon}
+                </View>
                 <Text style={styles.textItem}>{item.title}</Text>
                 <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
                     <Text>{item.date}</Text>
@@ -59,7 +71,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     textItem: {
-        flex: 4,
+        flex: 3,
+        marginStart: '3%',
         fontSize: 20,
         fontWeight: 'bold',
     },

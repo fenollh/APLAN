@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet, TextInput } from 'react-native'
 
 import { getData } from '../../../dataBaseFunctions/saveData'
-import { updateData } from '../../../dataBaseFunctions/updateData'
+import { updateNote } from '../../../dataBaseFunctions/updateData'
 
 import { FontAwesome5 } from 'react-native-vector-icons'
 import { Button, Icon } from 'native-base'
@@ -56,7 +56,7 @@ export default class NoteView extends React.Component {
                 style={styles.editButton}
                 icon
                 onPress={() => {
-                    updateData(this, this.state.index)
+                    updateNote(this, this.state.index)
                     this.setState({ readOnly: !this.state.readOnly })
                 }}>
                 <Icon name='ios-add' style={{ fontSize: 50, color: 'rgb(52,251,167)'}}/>
