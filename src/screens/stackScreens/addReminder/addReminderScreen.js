@@ -33,17 +33,6 @@ export default class AddReminderScreen extends React.Component{
         this.props.navigation.navigate('main')
     }
 
-    
-    whenSendNotifications = () => {
-        let notifications = this.state.cbNotifications
-
-        notifications[0] ?notifications[0] = 1  :notifications[0] = 0
-        notifications[1] ?notifications[1] = 60  :notifications[1] = 0
-        notifications[2] ?notifications[2] = 1440  :notifications[2] = 0
-        notifications[3] ?notifications[3] = 10080  :notifications[3] = 0
-
-        this.setState({ cbNotifications: notifications })
-    }
 
     changeRadio = (pressedRad) => {
         switch(pressedRad){

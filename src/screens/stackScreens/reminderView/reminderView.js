@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { View, Text, StyleSheet, TextInput } from 'react-native'
-import{ DatePicker, CheckBox, ListItem, Left, Right, Radio, Icon } from 'native-base'
+import{ DatePicker, CheckBox, ListItem, Left, Right, Radio } from 'native-base'
 import { MaterialCommunityIcons } from 'react-native-vector-icons'
 
 import { updateData } from '../../../dataBaseFunctions/updateData'
@@ -14,6 +14,7 @@ export default class ReminderView extends React.Component {
         this.state = {
             index: this.props.route.params.index,
             title: '',
+            body: '',
             stringDate: '',
             data: [],
             choseDate: new Date(),
@@ -36,6 +37,27 @@ export default class ReminderView extends React.Component {
             cbNotifications: this.state.data[this.state.index].notifications, 
         }))
     }
+
+    changeCbNotifications = (pressedCb) => {
+        const that= this.state.cbNotifications
+        switch(pressedCb){
+            case 0: 
+                this.setState({ cbNotifications: [!that[0], that[1], that[2], that[3]] })
+                break
+            case 1:
+                this.setState({ cbNotifications: [that[0], !that[1], that[2], that[3]] })
+                break
+                
+            case 2:
+                this.setState({ cbNotifications: [that[0], that[1], !that[2], that[3]] })
+                break
+
+            case 3:
+                this.setState({ cbNotifications: [that[0], that[1], that[2], !that[3]] })
+                break
+        }
+    }
+
 
     changeRadio = (pressedRad) => {
         switch(pressedRad){
@@ -133,7 +155,50 @@ export default class ReminderView extends React.Component {
                     </View>
 
                 </View>
-                <View style={{flex: 2}}>
+                <View style={{flex: 2, flexDirection: 'row'}}>
+                    <View style={styles.checkBox}>
+                        <View style={{flex:1}}>
+                            <CheckBox 
+                                checked={this.state.cbNotifications[1]} 
+                                color='rgb(100,180,255)'/>
+                            </View>
+                        <View style={{flex:1}}>
+                            <Text> 1 hour before</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.checkBox}>
+                        <View style={{flex:1}}>
+                            <CheckBox 
+                                checked={this.state.cbNotifications[2]} 
+                                color='rgb(100,180,255)'/>
+                            </View>
+                        <View style={{flex:1}}>
+                            <Text> 1 day before</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.checkBox}>
+                        <View style={{flex:1}}>
+                            <CheckBox 
+                                checked={this.state.cbNotifications[3]} 
+                                color='rgb(100,180,255)'/>
+                            </View>
+                        <View style={{flex:1}}>
+                            <Text> 1 week before</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.checkBox}>
+                        <View style={{flex:1}}>
+                            <CheckBox 
+                                checked={this.state.cbNotifications[0]} 
+                                color='rgb(100,180,255)'/>
+                            </View>
+                        <View style={{flex:1}}>
+                            <Text> At the moment</Text>
+                        </View>
+                    </View>
                     
                 </View>
             </View>
@@ -212,15 +277,61 @@ export default class ReminderView extends React.Component {
                     </View>
                     <View style={styles.body}>
                         <TextInput
-                            value={this.state.title}
-                            style={{padding: '2%'}}
+                            value={this.state.body}
                             multiline={true}
-                            onChangeText={(body)=>this.setState({ body: body })}
+                            onChangeText={(val) => this.setState({ body: val })}
                             />
                     </View>
 
                 </View>
-                <View style={{flex: 2}}>
+                <View style={{flex: 2, flexDirection: 'row'}}>
+                    <View style={styles.checkBox}>
+                        <View style={{flex:1}}>
+                            <CheckBox 
+                                checked={this.state.cbNotifications[1]} 
+                                onPress={() => this.changeCbNotifications(1)}
+                                color='rgb(100,180,255)'/>
+                            </View>
+                        <View style={{flex:1}}>
+                            <Text onPress={() => this.changeCbNotifications(1)}> 1 hour before</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.checkBox}>
+                        <View style={{flex:1}}>
+                            <CheckBox 
+                                checked={this.state.cbNotifications[2]} 
+                                onPress={() => this.changeCbNotifications(2)}
+                                color='rgb(100,180,255)'/>
+                            </View>
+                        <View style={{flex:1}}>
+                            <Text onPress={() => this.changeCbNotifications(2)}> 1 day before</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.checkBox}>
+                        <View style={{flex:1}}>
+                            <CheckBox 
+                                checked={this.state.cbNotifications[3]} 
+                                onPress={() => this.changeCbNotifications(3)}
+                                color='rgb(100,180,255)'/>
+                            </View>
+                        <View style={{flex:1}}>
+                            <Text onPress={() => this.changeCbNotifications(3)}> 1 week before</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.checkBox}>
+                        <View style={{flex:1}}>
+                            <CheckBox 
+                                checked={this.state.cbNotifications[0]} 
+                                onPress={() => this.changeCbNotifications(0)}
+                                color='rgb(100,180,255)'/>
+                            </View>
+                        <View style={{flex:1}}>
+                            <Text onPress={() => this.changeCbNotifications(0)}> At the moment</Text>
+                        </View>
+                    </View>
                     
                 </View>
             </View>
@@ -279,7 +390,13 @@ const styles = StyleSheet.create({
     body: {
         flex: 1,
         borderWidth: 1,
-        paddingHorizontal: 2,
+        padding: '2%',
         borderRadius: 20
+    },
+    checkBox: {
+        flex:1, 
+        flexDirection: "column", 
+        alignItems: 'center', 
+        marginTop: 20
     }
 })

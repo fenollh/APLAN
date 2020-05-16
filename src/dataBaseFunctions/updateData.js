@@ -16,7 +16,6 @@ const updateReminder = (context, index) => {
         const that = context.state
         context.state.data[index] = {title: that.title, body: that.body, date: that.stringDate, importance: that.importance, notifications: that.cbNotifications}
     })
-        
     .then(() => setData(context, 'reminders'))
 }
 

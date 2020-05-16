@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, TextInput } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import { updateData } from '../dataBaseFunctions/updateData'    
 
@@ -13,8 +13,6 @@ export default class UpdateButton extends React.Component {
     }
 
     render(){
-        let button
-
         if(this.props.context.state.readOnly){
 
             return(
@@ -36,7 +34,7 @@ export default class UpdateButton extends React.Component {
                     console.log(this.props.context.state.index)
                     this.props.context.setState({ readOnly: !this.props.context.state.readOnly })
                 }}>
-                <Icon name='ios-add' style={{ fontSize: 50, color: 'rgb(52,251,167)'}}/>
+                <Icon name='ios-save' style={{ fontSize: 40, color: 'rgb(52,251,167)'}}/>
             </Button>
             )
         }

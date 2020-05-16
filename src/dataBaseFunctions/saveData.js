@@ -1,6 +1,4 @@
-import React from 'react'
 import firebase from 'firebase'
-import { Alert } from 'react-native';
 
 
 const firebaseConfig = {
@@ -54,7 +52,6 @@ const saveReminder = (context) => {
         const that = context.state
         context.setState({ data: [...that.data, {title: that.title, body: that.body, date: that.stringDate, importance: that.radio, notifications: that.cbNotifications}] })
     })
-    .then(() => context.whenSendNotifications())
     .then(() => setData(context, 'reminders'))   
 }
 
