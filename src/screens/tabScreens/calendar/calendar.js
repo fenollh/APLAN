@@ -21,7 +21,6 @@ export default class CalendarScreen extends React.Component{
     }
 
     componentDidMount = () => {
-
         getData(this, 'reminders')
     }
 
@@ -40,6 +39,9 @@ export default class CalendarScreen extends React.Component{
                     <FavouritesButton context={this} />
                 </View>
                 <View style={{flex: 14}}>
+                    <View style={{flex:1}}>
+                        <Text> CALENDAR TABLE </Text>
+                    </View>
                     <ReminderList context={this}/>
                     <FabButton type = 'calendar' navigation = {this.props.navigation}/>
                 </View>

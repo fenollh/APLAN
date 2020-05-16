@@ -2,7 +2,8 @@ import React from 'react'
 import { View, Text, StyleSheet, TextInput } from 'react-native'
 
 import { getData } from '../../../dataBaseFunctions/saveData'
-import { updateNote } from '../../../dataBaseFunctions/updateData'
+import { updateData } from '../../../dataBaseFunctions/updateData'
+import UpdateButton from '../../../components/updateButton'
 
 import { FontAwesome5 } from 'react-native-vector-icons'
 import { Button, Icon } from 'native-base'
@@ -28,17 +29,8 @@ export default class NoteView extends React.Component {
     }
     
     render(){
-        let button
         let dataView
         if(this.state.readOnly){
-
-            button =
-            <Button
-                style={styles.editButton}
-                icon
-                onPress={() => this.setState({ readOnly: !this.state.readOnly })}>
-                <FontAwesome5 name='edit' style={{ fontSize: 30, color: 'rgb(52,251,167)'}}/>
-            </Button>
 
             dataView = 
             <View style={{flex:11}}>
@@ -50,18 +42,6 @@ export default class NoteView extends React.Component {
                 </View>
             </View>
         }else{
-
-            button =
-            <Button
-                style={styles.editButton}
-                icon
-                onPress={() => {
-                    updateNote(this, this.state.index)
-                    this.setState({ readOnly: !this.state.readOnly })
-                }}>
-                <Icon name='ios-add' style={{ fontSize: 50, color: 'rgb(52,251,167)'}}/>
-            </Button>
-
             dataView = 
             <View style={{flex: 11}}>
                 <View style={styles.title}>
@@ -88,7 +68,7 @@ export default class NoteView extends React.Component {
                 <View style={styles.main}>
                     {dataView}
                     <View style={{ alignItems: 'flex-end' }}>
-                        {button}
+                        <UpdateButton context={this} type='notes'/>
                     </View>
                 </View>
 

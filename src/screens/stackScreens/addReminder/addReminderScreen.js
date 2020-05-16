@@ -2,7 +2,7 @@ import React from 'react'
 
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import{ View, Text, TextInput, KeyboardAvoidingView, Alert } from 'react-native'
-import{ Button, DatePicker, CheckBox, ListItem, Left, Right, Radio, Icon } from 'native-base'
+import{ DatePicker, CheckBox, ListItem, Left, Right, Radio, Icon } from 'native-base'
 
 import styles from './styles'
 import AddButton from '../../../components/addButton'
